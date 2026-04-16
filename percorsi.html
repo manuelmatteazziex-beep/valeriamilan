@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Percorsi Individuali · Valeria Milan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--forest-deep:#06100A;--forest-dark:#0A1B0B;--forest-mid:#122616;--forest-light:#1C3B20;--gold:#C4963A;--gold-light:#DDB86A;--cream:#F0E6D0;--sage:#78987C;--sage-light:#A6C2AA;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.55);--glass-bg:rgba(10,27,11,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
+    .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);transition:color var(--dur-fast);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--dur-mid) var(--ease-out)}
+    .nav-links a:hover,.nav-links a.active{color:var(--cream)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{padding:9px 22px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)!important;transition:background var(--dur-fast)!important}
+    .nav-cta:hover{background:var(--gold);color:var(--forest-deep)!important}
+    .nav-cta::after{display:none!important}
+    .page-hero{padding:140px clamp(1.5rem,6vw,5rem) 80px;background:var(--forest-dark);position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;bottom:-1px;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--forest-deep));pointer-events:none}
+    .page-hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .page-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;color:var(--cream)}
+    .page-hero-title em{font-style:italic;color:var(--gold)}
+    .page-hero-sub{margin-top:1.5rem;font-size:1.1rem;color:var(--text-muted);max-width:580px;line-height:1.8}
+    .page-hero-orb{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,150,58,.05) 0%,transparent 70%);pointer-events:none}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.12s!important}
+    .reveal-delay-2{transition-delay:.24s!important}
+    .reveal-delay-3{transition-delay:.36s!important}
+    .btn-primary{display:inline-block;padding:14px 32px;background:var(--gold);color:var(--forest-deep);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:background var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(196,150,58,.3)}
+    .btn-ghost{display:inline-block;padding:13px 32px;border:1px solid rgba(232,221,208,.25);color:var(--cream);font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:border-color var(--dur-fast),background var(--dur-fast)}
+    .btn-ghost:hover{border-color:rgba(232,221,208,.6);background:rgba(232,221,208,.06)}
+    /* OVERVIEW CARDS */
+    #overview{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem);background:var(--forest-deep)}
+    .overview-header{text-align:center;max-width:680px;margin:0 auto 4rem}
+    .section-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:300;line-height:1.15;color:var(--cream)}
+    .section-title em{font-style:italic;color:var(--gold)}
+    .overview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+    @media(max-width:768px){.overview-grid{grid-template-columns:1fr}}
+    .overview-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:2.5rem;backdrop-filter:blur(12px);display:flex;flex-direction:column;gap:1.5rem;cursor:pointer;transition:transform var(--dur-mid) var(--ease-out),border-color var(--dur-mid),box-shadow var(--dur-mid)}
+    .overview-card:hover{transform:translateY(-5px);border-color:rgba(196,150,58,.35);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+    .ov-header{display:flex;gap:1.25rem;align-items:flex-start}
+    .ov-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:rgba(196,150,58,.25);line-height:1;flex-shrink:0;width:60px}
+    .ov-title{font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:400;color:var(--cream);line-height:1.2;padding-top:.35rem}
+    .ov-title em{font-style:italic;color:var(--gold)}
+    .ov-desc{font-size:.92rem;color:var(--text-muted);line-height:1.8}
+    .ov-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+    .ov-tag{padding:4px 12px;border:1px solid rgba(120,152,124,.3);border-radius:100px;font-size:.72rem;letter-spacing:.08em;color:var(--sage-light);background:rgba(120,152,124,.06)}
+    .ov-cta{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);transition:gap var(--dur-fast)}
+    .ov-cta svg{width:14px;stroke:currentColor;stroke-width:2;fill:none}
+    .overview-card:hover .ov-cta{gap:.8rem}
+    /* DETAIL SECTIONS */
+    .percorso-detail{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem);scroll-margin-top:80px}
+    .percorso-detail:nth-child(even){background:var(--forest-mid)}
+    .percorso-detail:nth-child(odd){background:var(--forest-dark)}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,8vw,7rem);align-items:center}
+    @media(max-width:900px){.detail-grid{grid-template-columns:1fr}}
+    .detail-visual{position:relative}
+    .detail-frame{border-radius:var(--radius-lg);aspect-ratio:4/3;background:linear-gradient(135deg,var(--forest-light) 0%,var(--forest-mid) 100%);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .detail-frame-pattern{position:absolute;inset:0;opacity:.06}
+    .detail-frame-label{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:rgba(240,230,208,.3);text-align:center;padding:2rem;position:relative;z-index:1}
+    .detail-badge{position:absolute;top:-20px;right:-20px;width:90px;height:90px;background:var(--forest-dark);border:1px solid var(--glass-border);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+    .detail-badge-num{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);line-height:1}
+    .detail-badge-sub{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+    .detail-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.15;color:var(--cream);margin-bottom:1.5rem}
+    .detail-title em{font-style:italic;color:var(--gold)}
+    .detail-body{font-size:1rem;color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem}
+    .detail-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
+    .detail-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.92rem;color:var(--text-muted);line-height:1.6}
+    .detail-list li::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:.45rem}
+    .detail-info{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem}
+    .info-chip{display:flex;align-items:center;gap:.4rem;padding:6px 14px;border:1px solid var(--glass-border);border-radius:100px;font-size:.78rem;color:var(--sage-light)}
+    .info-chip svg{width:12px;stroke:currentColor;stroke-width:2;fill:none}
+    /* CTA SECTION */
+    #cta-percorsi{background:var(--forest-mid);text-align:center;padding:clamp(80px,12vw,120px) 2rem}
+    .cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.15;color:var(--cream);margin-bottom:1.5rem}
+    .cta-title em{font-style:italic;color:var(--gold)}
+    footer{background:var(--forest-deep);border-top:1px solid var(--glass-border);padding:2rem clamp(1.5rem,6vw,5rem)}
+    .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-bottom p,.footer-legal a{font-size:.78rem;color:var(--text-muted)}
+    .footer-legal{display:flex;gap:1.5rem}
+    .footer-legal a:hover{color:var(--cream)}
+
+    /* 21st.dev: Spotlight + cursor */
+    @media(pointer:fine){body{cursor:none}a,button{cursor:none}}
+    .cursor-dot{width:7px;height:7px;background:#C4963A;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s;will-change:left,top}
+    .cursor-ring{width:36px;height:36px;border:1px solid rgba(196,150,58,.38);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .3s,opacity .3s;will-change:left,top}
+    .cursor-dot.expanded{width:5px;height:5px}.cursor-ring.expanded{width:52px;height:52px;border-color:rgba(196,150,58,.6)}
+    .cursor-dot.hidden,.cursor-ring.hidden{opacity:0}
+    .sp-layer{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--spx,50%) var(--spy,50%),rgba(196,150,58,.08),transparent 70%);pointer-events:none;opacity:0;transition:opacity .35s}
+    .overview-card:hover .sp-layer{opacity:1}
+    .btn-primary{position:relative;overflow:hidden;isolation:isolate}
+    .btn-shine{position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-20deg);pointer-events:none}
+    .btn-primary:hover .btn-shine{animation:btnShine .55s cubic-bezier(.16,1,.3,1) forwards}
+    @keyframes btnShine{to{left:160%}}
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3" stroke="#C4963A" stroke-width="1.5" fill="none"/></svg>
+    </div>
+    Valeria Milan
+  </a>
+  <ul class="nav-links">
+    <li><a href="chi-sono.html">Chi Sono</a></li>
+    <li><a href="percorsi.html" class="active">Percorsi</a></li>
+    <li><a href="servizi.html">Servizi</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-orb"></div>
+  <span class="page-hero-eyebrow">Percorsi Individuali</span>
+  <h1 class="page-hero-title">Quattro vie verso<br><em>te stesso</em></h1>
+  <p class="page-hero-sub">Ogni percorso è un invito a scendere in profondità — non per cambiare chi sei, ma per ricordarti di te.</p>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="overview-header">
+    <span class="section-eyebrow reveal">Scegli il tuo percorso</span>
+    <h2 class="section-title reveal reveal-delay-1">Dove ti senti<br><em>rispecchiato?</em></h2>
+  </div>
+  <div class="overview-grid">
+    <a href="#no" class="overview-card reveal">
+      <div class="ov-header">
+        <div class="ov-num">01</div>
+        <h3 class="ov-title">Imparare a<br>dire <em>NO</em></h3>
+      </div>
+      <p class="ov-desc">Per chi si sente sopraffatto dalle richieste degli altri e fatica a stabilire confini sani con rispetto e amore verso se stesso.</p>
+      <div class="ov-tags">
+        <span class="ov-tag">Confini personali</span>
+        <span class="ov-tag">Autostima</span>
+        <span class="ov-tag">Relazioni</span>
+      </div>
+      <span class="ov-cta">Scopri il percorso <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+    <a href="#tempo" class="overview-card reveal reveal-delay-1">
+      <div class="ov-header">
+        <div class="ov-num">02</div>
+        <h3 class="ov-title">Ferma il<br><em>Tempo</em></h3>
+      </div>
+      <p class="ov-desc">Per chi vive immerso nel caos e nella frenesia, dimenticando di abitare il proprio corpo e il momento presente.</p>
+      <div class="ov-tags">
+        <span class="ov-tag">Mindfulness</span>
+        <span class="ov-tag">Stress</span>
+        <span class="ov-tag">Presenza</span>
+      </div>
+      <span class="ov-cta">Scopri il percorso <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+    <a href="#felicita" class="overview-card reveal reveal-delay-2">
+      <div class="ov-header">
+        <div class="ov-num">03</div>
+        <h3 class="ov-title">La Strada della<br><em>Felicità</em></h3>
+      </div>
+      <p class="ov-desc">Per chi cerca qualcosa di più nella vita e vuole riconnettersi con la propria gioia autentica, al di là di ciò che la società si aspetta.</p>
+      <div class="ov-tags">
+        <span class="ov-tag">Gioia</span>
+        <span class="ov-tag">Scopo di vita</span>
+        <span class="ov-tag">Autenticità</span>
+      </div>
+      <span class="ov-cta">Scopri il percorso <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+    <a href="#cambiamento" class="overview-card reveal reveal-delay-3">
+      <div class="ov-header">
+        <div class="ov-num">04</div>
+        <h3 class="ov-title">Il Vento del<br><em>Cambiamento</em></h3>
+      </div>
+      <p class="ov-desc">Per chi attraversa una transizione importante — lavorativa, relazionale, esistenziale — e vuole affrontarla con consapevolezza.</p>
+      <div class="ov-tags">
+        <span class="ov-tag">Transizioni</span>
+        <span class="ov-tag">Resilienza</span>
+        <span class="ov-tag">Nuovo inizio</span>
+      </div>
+      <span class="ov-cta">Scopri il percorso <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<!-- PERCORSO 01 -->
+<section id="no" class="percorso-detail">
+  <div class="detail-grid">
+    <div class="detail-visual reveal">
+      <div class="detail-frame">
+        <div class="detail-frame-label">Il Coraggio<br>del Confine</div>
+      </div>
+      <div class="detail-badge">
+        <span class="detail-badge-num">01</span>
+        <span class="detail-badge-sub">percorso</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <span class="detail-eyebrow">Percorso 01</span>
+      <h2 class="detail-title">Imparare a<br>dire <em>NO</em></h2>
+      <p class="detail-body">Ti senti oppresso/a dalle richieste di partner, figli, capi, colleghi o genitori? Dici sempre sì anche quando vorresti dire no? Questo percorso è per te.</p>
+      <p class="detail-body">Insieme esploreremo le radici della tua difficoltà a stabilire confini, libererai le paure che limitano la tua espressione personale e imparerai a bilanciare il tempo dedicato agli altri con quello per te.</p>
+      <ul class="detail-list">
+        <li>Tecniche di respirazione per gestire l'ansia nel momento del "no"</li>
+        <li>Biorisonanza olistica come strumento di supporto</li>
+        <li>Scrittura creativa e disegno per esplorare le emozioni</li>
+        <li>Spazi di condivisione e riflessione guidata</li>
+      </ul>
+      <div class="detail-info">
+        <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min / sessione</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Min. 5 sessioni</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Vicenza · Online</span>
+      </div>
+      <a href="contatti.html" class="btn-primary">Inizia questo percorso</a>
+    </div>
+  </div>
+</section>
+
+<!-- PERCORSO 02 -->
+<section id="tempo" class="percorso-detail">
+  <div class="detail-grid">
+    <div class="reveal reveal-delay-1" style="order:1">
+      <span class="detail-eyebrow">Percorso 02</span>
+      <h2 class="detail-title">Ferma il<br><em>Tempo</em></h2>
+      <p class="detail-body">Vivi sempre di corsa? Hai la sensazione che il tempo ti sfugga di mano? La mindfulness non è una tecnica di rilassamento — è un modo di abitare la vita.</p>
+      <p class="detail-body">Attraverso pratiche di meditazione, respirazione consapevole e presenza corporea, imparerai a rallentare il ritmo e a trovare la pace in mezzo al caos quotidiano.</p>
+      <ul class="detail-list">
+        <li>Pratiche di mindfulness formale e informale quotidiana</li>
+        <li>Tecniche di meditazione adattate alla tua routine</li>
+        <li>Scansione corporea e rilassamento progressivo</li>
+        <li>Integrazione della presenza nella vita di tutti i giorni</li>
+      </ul>
+      <div class="detail-info">
+        <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min / sessione</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Min. 5 sessioni</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Vicenza · Online</span>
+      </div>
+      <a href="contatti.html" class="btn-primary">Inizia questo percorso</a>
+    </div>
+    <div class="detail-visual reveal" style="order:2">
+      <div class="detail-frame">
+        <div class="detail-frame-label">La Quiete<br>nel Momento</div>
+      </div>
+      <div class="detail-badge">
+        <span class="detail-badge-num">02</span>
+        <span class="detail-badge-sub">percorso</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERCORSO 03 -->
+<section id="felicita" class="percorso-detail">
+  <div class="detail-grid">
+    <div class="detail-visual reveal">
+      <div class="detail-frame">
+        <div class="detail-frame-label">Il Ritorno<br>alla Gioia</div>
+      </div>
+      <div class="detail-badge">
+        <span class="detail-badge-num">03</span>
+        <span class="detail-badge-sub">percorso</span>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <span class="detail-eyebrow">Percorso 03</span>
+      <h2 class="detail-title">La Strada della<br><em>Felicità</em></h2>
+      <p class="detail-body">Non si tratta di inseguire la felicità come un traguardo esterno. Si tratta di ricordare che la gioia è la tua natura originale — e che si trova attraverso la riconnessione con la tua essenza.</p>
+      <p class="detail-body">In questo percorso esploreremo cosa ti fa sentire davvero vivo/a, rimuoveremo i blocchi che ti impediscono di accedere alla gioia e coltiveremo una relazione amorevole con te stesso/a.</p>
+      <ul class="detail-list">
+        <li>Esplorazione dei valori profondi e del proprio scopo di vita</li>
+        <li>Rimozione di credenze limitanti e pattern sabotanti</li>
+        <li>Pratiche di gratitudine e apprezzamento quotidiano</li>
+        <li>Riconnessione con i propri doni e talenti unici</li>
+      </ul>
+      <div class="detail-info">
+        <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min / sessione</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Min. 5 sessioni</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Vicenza · Online</span>
+      </div>
+      <a href="contatti.html" class="btn-primary">Inizia questo percorso</a>
+    </div>
+  </div>
+</section>
+
+<!-- PERCORSO 04 -->
+<section id="cambiamento" class="percorso-detail">
+  <div class="detail-grid">
+    <div class="reveal reveal-delay-1" style="order:1">
+      <span class="detail-eyebrow">Percorso 04</span>
+      <h2 class="detail-title">Il Vento del<br><em>Cambiamento</em></h2>
+      <p class="detail-body">I momenti di transizione — una perdita, una scelta radicale, una fine o un nuovo inizio — possono essere i più trasformativi della vita, se affrontati con gli strumenti giusti.</p>
+      <p class="detail-body">Questo percorso ti accompagna attraverso il cambiamento, aiutandoti a trovare il tuo ritmo in un momento di instabilità e a costruire la tua resilienza interiore.</p>
+      <ul class="detail-list">
+        <li>Elaborazione delle emozioni legate alla transizione</li>
+        <li>Costruzione di nuovi riferimenti e punti di ancoraggio</li>
+        <li>Sviluppo della resilienza e della flessibilità interiore</li>
+        <li>Integrazione dell'esperienza nel proprio cammino di vita</li>
+      </ul>
+      <div class="detail-info">
+        <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min / sessione</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Min. 5 sessioni</span>
+        <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Vicenza · Online</span>
+      </div>
+      <a href="contatti.html" class="btn-primary">Inizia questo percorso</a>
+    </div>
+    <div class="detail-visual reveal" style="order:2">
+      <div class="detail-frame">
+        <div class="detail-frame-label">La Forza nella<br>Trasformazione</div>
+      </div>
+      <div class="detail-badge">
+        <span class="detail-badge-num">04</span>
+        <span class="detail-badge-sub">percorso</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-percorsi">
+  <h2 class="cta-title reveal">Non sai da dove<br><em>iniziare?</em></h2>
+  <p style="font-size:1.05rem;color:var(--text-muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.8" class="reveal reveal-delay-1">
+    Prenota una chiamata conoscitiva gratuita. In 20 minuti capiremo insieme quale percorso risuona con il tuo momento presente.
+  </p>
+  <div class="reveal reveal-delay-2">
+    <a href="contatti.html" class="btn-primary" style="font-size:.9rem;padding:16px 40px;">Chiamata conoscitiva gratuita</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2024 Valeria Milan · P.IVA 04265600249</p>
+    <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(es => es.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 21st.dev: Custom cursor
+(function(){
+  const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+  if(!dot||!ring)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';dot.classList.remove('hidden');ring.classList.remove('hidden');},{passive:true});
+  document.addEventListener('mouseleave',()=>{dot.classList.add('hidden');ring.classList.add('hidden');});
+  (function r(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(r);})();
+  document.querySelectorAll('a,button,.overview-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{dot.classList.add('expanded');ring.classList.add('expanded');});
+    el.addEventListener('mouseleave',()=>{dot.classList.remove('expanded');ring.classList.remove('expanded');});
+  });
+})();
+
+// 21st.dev: Spotlight on overview cards
+document.querySelectorAll('.overview-card').forEach(card=>{
+  const sp=document.createElement('div');
+  sp.className='sp-layer';sp.setAttribute('aria-hidden','true');
+  card.appendChild(sp);
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--spx',(e.clientX-r.left)+'px');
+    card.style.setProperty('--spy',(e.clientY-r.top)+'px');
+  },{passive:true});
+});
+
+// 21st.dev: Magnetic + shiny btn-primary
+document.querySelectorAll('.btn-primary').forEach(btn=>{
+  btn.innerHTML='<span class="btn-shine" aria-hidden="true"></span>'+btn.innerHTML;
+  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-(r.left+r.width/2))*.2}px,${(e.clientY-(r.top+r.height/2))*.2}px)`;});
+  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+});
+</script>
+</body>
+</html>

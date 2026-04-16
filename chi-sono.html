@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi Sono · Valeria Milan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--forest-deep:#06100A;--forest-dark:#0A1B0B;--forest-mid:#122616;--forest-light:#1C3B20;--gold:#C4963A;--gold-light:#DDB86A;--gold-pale:#F0D8A8;--cream:#F0E6D0;--cream-light:#FAF4EB;--sage:#78987C;--sage-light:#A6C2AA;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.55);--glass-bg:rgba(10,27,11,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
+    .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);transition:color var(--dur-fast);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--dur-mid) var(--ease-out)}
+    .nav-links a:hover{color:var(--cream)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-links a.active{color:var(--cream)}
+    .nav-cta{padding:9px 22px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)!important;transition:background var(--dur-fast),color var(--dur-fast)!important}
+    .nav-cta:hover{background:var(--gold);color:var(--forest-deep)!important}
+    .nav-cta::after{display:none!important}
+    /* HERO */
+    .page-hero{padding:140px clamp(1.5rem,6vw,5rem) 80px;background:var(--forest-dark);position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;bottom:-1px;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--forest-deep));pointer-events:none}
+    .page-hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .page-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;color:var(--cream);max-width:12ch}
+    .page-hero-title em{font-style:italic;color:var(--gold)}
+    .page-hero-orb{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(196,150,58,.05) 0%,transparent 70%);animation:orbFloat 8s ease-in-out infinite alternate;pointer-events:none}
+    @keyframes orbFloat{from{transform:translateY(-50%) scale(1)}to{transform:translateY(calc(-50% - 20px)) scale(1.05)}}
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s!important}
+    .reveal-delay-2{transition-delay:.22s!important}
+    .reveal-delay-3{transition-delay:.35s!important}
+    /* BUTTONS */
+    .btn-primary{display:inline-block;padding:14px 32px;background:var(--gold);color:var(--forest-deep);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:background var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(196,150,58,.3)}
+    .btn-ghost{display:inline-block;padding:13px 32px;border:1px solid rgba(232,221,208,.25);color:var(--cream);font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:border-color var(--dur-fast),background var(--dur-fast)}
+    .btn-ghost:hover{border-color:rgba(232,221,208,.6);background:rgba(232,221,208,.06)}
+    /* CONTENT SECTIONS */
+    section{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem)}
+    .section-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:300;line-height:1.15;color:var(--cream)}
+    .section-title em{font-style:italic;color:var(--gold)}
+    .section-body{font-size:1.05rem;color:var(--text-muted);line-height:1.85;max-width:640px}
+    /* STORY */
+    #storia{background:var(--forest-deep)}
+    .storia-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,8vw,7rem);align-items:start}
+    @media(max-width:900px){.storia-grid{grid-template-columns:1fr}}
+    .storia-sticky{position:sticky;top:100px}
+    .storia-frame{border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;background:linear-gradient(160deg,var(--forest-light) 0%,var(--forest-mid) 100%);display:flex;align-items:center;justify-content:center;border:1px solid var(--glass-border)}
+    .storia-frame-label{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:rgba(240,230,208,.25);text-align:center;padding:2rem}
+    .storia-content p{font-size:1.05rem;color:var(--text-muted);line-height:1.9;margin-bottom:1.5rem}
+    .storia-content p strong{color:var(--cream);font-weight:500}
+    .storia-pullquote{padding:2rem;border-left:2px solid var(--gold);background:rgba(196,150,58,.04);border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:2.5rem 0;font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-style:italic;color:var(--cream);line-height:1.6}
+    /* METODOLOGIA */
+    #metodologia{background:var(--forest-mid)}
+    .metodo-intro{max-width:680px;margin:0 auto 4rem;text-align:center}
+    .metodo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:900px){.metodo-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.metodo-grid{grid-template-columns:1fr}}
+    .metodo-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2rem 1.75rem;backdrop-filter:blur(12px);transition:transform var(--dur-mid) var(--ease-out),border-color var(--dur-mid)}
+    .metodo-card:hover{transform:translateY(-4px);border-color:rgba(196,150,58,.3)}
+    .metodo-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:rgba(196,150,58,.15);line-height:1;margin-bottom:.5rem}
+    .metodo-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin-bottom:.75rem}
+    .metodo-desc{font-size:.88rem;color:var(--text-muted);line-height:1.75}
+    /* VALORI */
+    #valori{background:var(--forest-dark)}
+    .valori-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:900px}
+    @media(max-width:600px){.valori-grid{grid-template-columns:1fr}}
+    .valore-item{display:flex;gap:1.25rem;align-items:flex-start}
+    .valore-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:.45rem}
+    .valore-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;color:var(--cream);margin-bottom:.35rem}
+    .valore-desc{font-size:.88rem;color:var(--text-muted);line-height:1.7}
+    /* CTA */
+    #cta-chisono{background:var(--forest-mid);text-align:center;padding:clamp(80px,12vw,120px) 2rem}
+    .cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;line-height:1.15;color:var(--cream);margin-bottom:1.5rem}
+    .cta-title em{font-style:italic;color:var(--gold)}
+    .cta-body{font-size:1.05rem;color:var(--text-muted);line-height:1.8;max-width:560px;margin:0 auto 2.5rem}
+    /* FOOTER */
+    footer{background:var(--forest-deep);border-top:1px solid var(--glass-border);padding:3rem clamp(1.5rem,6vw,5rem)}
+    .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-bottom p{font-size:.78rem;color:var(--text-muted)}
+    .footer-legal{display:flex;gap:1.5rem}
+    .footer-legal a{font-size:.78rem;color:var(--text-muted);transition:color var(--dur-fast)}
+    .footer-legal a:hover{color:var(--cream)}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3" stroke="#C4963A" stroke-width="1.5" fill="none"/></svg>
+    </div>
+    Valeria Milan
+  </a>
+  <ul class="nav-links">
+    <li><a href="chi-sono.html" class="active">Chi Sono</a></li>
+    <li><a href="percorsi.html">Percorsi</a></li>
+    <li><a href="servizi.html">Servizi</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-orb"></div>
+  <span class="page-hero-eyebrow">Chi Sono</span>
+  <h1 class="page-hero-title">
+    Valeria<br><em>Milan</em>
+  </h1>
+</div>
+
+<!-- STORIA -->
+<section id="storia">
+  <div class="storia-grid">
+    <div class="storia-sticky reveal">
+      <div class="storia-frame">
+        <div class="storia-frame-label">Valeria Milan<br>Counselor Olistica</div>
+      </div>
+    </div>
+    <div class="storia-content">
+      <span class="section-eyebrow reveal">La mia storia</span>
+      <h2 class="section-title reveal reveal-delay-1">Dalla ricerca personale<br>alla <em>guida degli altri</em></h2>
+      <div style="margin-top:2rem">
+        <p class="reveal reveal-delay-2">
+          Ho sempre sentito il bisogno di andare in profondità. <strong>Non mi bastava la superficie delle cose</strong> — volevo capire perché le persone soffrono, perché rimangono bloccate, perché spesso il dolore più grande non è quello che viene dall'esterno ma quello che portiamo dentro di noi senza saperlo nominare.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Il mio percorso verso il counseling olistico è nato da una <strong>ricerca personale autentica</strong>, dalla voglia di trovare strumenti che andassero oltre la psicologia tradizionale — strumenti che tenessero conto della persona nella sua totalità: corpo, mente, emozioni e spirito.
+        </p>
+        <blockquote class="storia-pullquote reveal reveal-delay-2">
+          "Ho imparato che non esiste un unico percorso verso se stessi. Esiste <em>il tuo</em> percorso, e il mio compito è aiutarti a trovarlo."
+        </blockquote>
+        <p class="reveal reveal-delay-2">
+          Oggi lavoro con persone che si trovano a un bivio esistenziale — che si sentono perse, sopraffatte, o che semplicemente sentono che c'è qualcosa di più nella vita che non riescono ancora a raggiungere. Il mio approccio integra diverse metodologie: dalla <strong>Scienza dello Spirito</strong> alla biorisonanza, dalla mindfulness al respiro consapevole, fino alle quintessenze Matrix Drops.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Sono professionista disciplinata ai sensi della <strong>legge 4/2013</strong>, con oltre 15 anni di formazione e pratica. Opero in presenza a Vicenza, Sandrigo e Bressanvido, e online via Zoom o Skype.
+        </p>
+      </div>
+      <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap" class="reveal reveal-delay-3">
+        <a href="contatti.html" class="btn-primary">Conosciamoci</a>
+        <a href="percorsi.html" class="btn-ghost">Vedi i Percorsi</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section id="metodologia">
+  <div class="metodo-intro">
+    <span class="section-eyebrow reveal">Metodologia</span>
+    <h2 class="section-title reveal reveal-delay-1">Un approccio <em>integrato</em></h2>
+    <p style="font-size:1.05rem;color:var(--text-muted);line-height:1.8;margin-top:1.25rem" class="reveal reveal-delay-2">
+      Ogni strumento che utilizzo è stato scelto perché risponde a una specifica necessità umana.
+      Non esiste un metodo universale — esiste la tua unicità, e io trovo il percorso che risuona con essa.
+    </p>
+  </div>
+  <div class="metodo-grid">
+    <div class="metodo-card reveal">
+      <div class="metodo-num">01</div>
+      <h3 class="metodo-title">Scienza dello Spirito</h3>
+      <p class="metodo-desc">Approccio che considera la dimensione spirituale come parte integrante dell'essere umano. Non religioso, ma profondamente radicato nel senso della vita.</p>
+    </div>
+    <div class="metodo-card reveal reveal-delay-1">
+      <div class="metodo-num">02</div>
+      <h3 class="metodo-title">Counseling Olistico</h3>
+      <p class="metodo-desc">Ascolto attivo, non giudicante, che ti permette di vedere con chiarezza le tue risorse interiori e trovare le risposte che già possiedi.</p>
+    </div>
+    <div class="metodo-card reveal reveal-delay-2">
+      <div class="metodo-num">03</div>
+      <h3 class="metodo-title">Mindfulness e Meditazione</h3>
+      <p class="metodo-desc">Pratiche di presenza che riducono lo stress, aumentano la consapevolezza e creano uno spazio di quiete in cui il cambiamento diventa possibile.</p>
+    </div>
+    <div class="metodo-card reveal reveal-delay-1">
+      <div class="metodo-num">04</div>
+      <h3 class="metodo-title">Respiro Consapevole</h3>
+      <p class="metodo-desc">Il respiro è il ponte tra mente e corpo. Attraverso tecniche di breathwork si liberano blocchi emotivi e si attiva la capacità naturale di autoguarigione.</p>
+    </div>
+    <div class="metodo-card reveal reveal-delay-2">
+      <div class="metodo-num">05</div>
+      <h3 class="metodo-title">Biorisonanza Olistica</h3>
+      <p class="metodo-desc">Strumento tecnologico avanzato per l'analisi delle frequenze energetiche corporee. Un supporto complementare per comprendere gli squilibri e riequilibrarli.</p>
+    </div>
+    <div class="metodo-card reveal reveal-delay-3">
+      <div class="metodo-num">06</div>
+      <h3 class="metodo-title">Matrix Drops · Quintessenze</h3>
+      <p class="metodo-desc">Informazioni vibratorie sottilistiche che supportano i processi di trasformazione interiore, lavorando sui pattern emotivi profondi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALORI -->
+<section id="valori">
+  <span class="section-eyebrow reveal">I miei valori</span>
+  <h2 class="section-title reveal reveal-delay-1" style="margin-bottom:3rem">
+    Ciò in cui <em>credo</em>
+  </h2>
+  <div class="valori-grid">
+    <div class="valore-item reveal">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">Autenticità senza giudizio</h3>
+        <p class="valore-desc">Ogni persona merita uno spazio in cui essere completamente se stessa, senza maschere e senza timore di essere giudicata.</p>
+      </div>
+    </div>
+    <div class="valore-item reveal reveal-delay-1">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">La risposta è in te</h3>
+        <p class="valore-desc">Non sono qui per darti soluzioni preconfezionate. Sono qui per aiutarti a trovare le risposte che già possiedi dentro di te.</p>
+      </div>
+    </div>
+    <div class="valore-item reveal reveal-delay-2">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">Visione olistica dell'essere</h3>
+        <p class="valore-desc">Corpo, mente, emozioni e spirito non sono separati. Il benessere vero emerge quando tutti questi livelli vengono integrati.</p>
+      </div>
+    </div>
+    <div class="valore-item reveal reveal-delay-3">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">Rispetto per i tempi di ognuno</h3>
+        <p class="valore-desc">La trasformazione non ha fretta. Ogni persona ha il suo ritmo, e io mi adatto a quello — non il contrario.</p>
+      </div>
+    </div>
+    <div class="valore-item reveal">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">Formazione continua</h3>
+        <p class="valore-desc">Studio, ricerca e aggiornamento costante per portare ai miei clienti sempre il meglio di ciò che la conoscenza moderna e tradizionale offre.</p>
+      </div>
+    </div>
+    <div class="valore-item reveal reveal-delay-1">
+      <div class="valore-dot"></div>
+      <div>
+        <h3 class="valore-title">Etica professionale</h3>
+        <p class="valore-desc">Professionista disciplinata ai sensi della legge 4/2013. Riservatezza, rispetto e professionalità sono la base di ogni relazione d'aiuto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-chisono">
+  <h2 class="cta-title reveal">
+    Iniziamo a<br><em>conoscerci</em>
+  </h2>
+  <p class="cta-body reveal reveal-delay-1">
+    Una chiamata conoscitiva di 20 minuti, gratuita e senza impegno,
+    per capire insieme qual è il percorso più adatto a te.
+  </p>
+  <div class="reveal reveal-delay-2">
+    <a href="contatti.html" class="btn-primary" style="font-size:.9rem;padding:16px 40px;">Prenota la chiamata gratuita</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2024 Valeria Milan · P.IVA 04265600249 · Legge 4/2013</p>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');revealObserver.unobserve(e.target);} });
+}, {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

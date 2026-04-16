@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valeria Milan · Resilienza Creativa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─────────────────────────────────────────────────────
+       DESIGN TOKENS
+    ───────────────────────────────────────────────────── */
+    :root {
+      --forest-deep:   #06100A;
+      --forest-dark:   #0A1B0B;
+      --forest-mid:    #122616;
+      --forest-light:  #1C3B20;
+      --gold:          #C4963A;
+      --gold-light:    #DDB86A;
+      --gold-pale:     #F0D8A8;
+      --cream:         #F0E6D0;
+      --cream-light:   #FAF4EB;
+      --sage:          #78987C;
+      --sage-light:    #A6C2AA;
+      --text-light:    #E8DDD0;
+      --text-muted:    rgba(232,221,208,.55);
+      --glass-bg:      rgba(10,27,11,.45);
+      --glass-border:  rgba(196,150,58,.18);
+      --radius-sm:     8px;
+      --radius-md:     16px;
+      --radius-lg:     28px;
+      --dur-fast:      160ms;
+      --dur-mid:       280ms;
+      --dur-slow:      480ms;
+      --ease-out:      cubic-bezier(.16,1,.3,1);
+    }
+
+    /* ─────────────────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--forest-deep);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─────────────────────────────────────────────────────
+       PRELOADER
+    ───────────────────────────────────────────────────── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--forest-deep);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity .7s var(--ease-out), visibility .7s;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .pre-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: .12em;
+      opacity: 0;
+      animation: preIn .8s .3s var(--ease-out) forwards;
+    }
+    .pre-bar {
+      margin-top: 32px; width: 160px; height: 1px;
+      background: rgba(196,150,58,.2);
+      position: relative; overflow: hidden;
+    }
+    .pre-bar::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; height: 100%; width: 100%;
+      background: var(--gold);
+      animation: preBar 1.2s .6s var(--ease-out) forwards;
+    }
+    @keyframes preIn  { to { opacity:1; transform: translateY(0); } from { opacity:0; transform: translateY(12px); } }
+    @keyframes preBar { to { left: 100%; } }
+
+    /* ─────────────────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      transition: background var(--dur-mid) var(--ease-out),
+                  backdrop-filter var(--dur-mid) var(--ease-out),
+                  border-color var(--dur-mid);
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(6,16,10,.72);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border-color: var(--glass-border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 500;
+      letter-spacing: .1em; color: var(--cream);
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-mark svg { width: 16px; height: 16px; fill: var(--gold); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-muted);
+      transition: color var(--dur-fast);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width var(--dur-mid) var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      padding: 9px 22px;
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold) !important;
+      transition: background var(--dur-fast), color var(--dur-fast) !important;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--forest-deep) !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      width: 24px; height: 1px; background: var(--cream);
+      transition: all var(--dur-fast);
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
+    /* ─────────────────────────────────────────────────────
+       HERO — SCROLL-DRIVEN CANVAS
+    ───────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 500vh; /* tall container for scroll scrubbing */
+    }
+    .hero-sticky {
+      position: sticky; top: 0;
+      height: 100vh; width: 100%;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #heroCanvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+    }
+    .hero-bg-gradient {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 60%,
+        rgba(18,38,22,.0) 0%, rgba(6,16,10,1) 80%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      max-width: 900px; padding: 0 2rem;
+    }
+    .hero-eyebrow {
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 1s, transform 1s var(--ease-out);
+    }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -.01em;
+      color: var(--cream);
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 1.2s .1s, transform 1.2s .1s var(--ease-out);
+    }
+    .hero-title.visible { opacity: 1; transform: translateY(0); }
+    .hero-title em {
+      font-style: italic; color: var(--gold);
+    }
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300; color: var(--text-muted); line-height: 1.8;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 1s .3s, transform 1s .3s var(--ease-out);
+    }
+    .hero-sub.visible { opacity: 1; transform: translateY(0); }
+    .hero-actions {
+      margin-top: 3rem;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .8s .5s, transform .8s .5s var(--ease-out);
+    }
+    .hero-actions.visible { opacity: 1; transform: translateY(0); }
+    .btn-primary {
+      padding: 14px 32px;
+      background: var(--gold);
+      color: var(--forest-deep);
+      font-size: .82rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; border-radius: 100px;
+      transition: background var(--dur-fast), transform var(--dur-fast), box-shadow var(--dur-fast);
+      box-shadow: 0 0 0 rgba(196,150,58,0);
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(196,150,58,.3);
+    }
+    .btn-ghost {
+      padding: 13px 32px;
+      border: 1px solid rgba(232,221,208,.25);
+      color: var(--cream);
+      font-size: .82rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; border-radius: 100px;
+      transition: border-color var(--dur-fast), background var(--dur-fast);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(232,221,208,.6);
+      background: rgba(232,221,208,.06);
+    }
+    /* Scroll narrative text */
+    .hero-narrative {
+      position: absolute; bottom: 80px; left: 50%;
+      transform: translateX(-50%);
+      text-align: center; z-index: 3; pointer-events: none;
+    }
+    .hero-narrative p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: var(--text-muted);
+      opacity: 0; transition: opacity .6s var(--ease-out);
+    }
+    .hero-narrative p.active { opacity: 1; }
+    .scroll-indicator {
+      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 3; cursor: pointer;
+    }
+    .scroll-indicator span {
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .scroll-mouse {
+      width: 22px; height: 36px;
+      border: 1px solid rgba(196,150,58,.4); border-radius: 12px;
+      display: flex; justify-content: center; padding-top: 7px;
+    }
+    .scroll-mouse::after {
+      content: ''; width: 4px; height: 8px;
+      background: var(--gold); border-radius: 2px;
+      animation: scrollAnim 1.8s infinite;
+    }
+    @keyframes scrollAnim {
+      0%   { opacity:1; transform: translateY(0); }
+      80%  { opacity:0; transform: translateY(10px); }
+      100% { opacity:0; transform: translateY(0); }
+    }
+
+    /* ─────────────────────────────────────────────────────
+       MARQUEE / MANIFESTO
+    ───────────────────────────────────────────────────── */
+    .marquee-section {
+      padding: 60px 0;
+      overflow: hidden;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .marquee-track {
+      display: flex; gap: 4rem;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 300; font-style: italic;
+      white-space: nowrap; color: var(--text-muted);
+      display: flex; align-items: center; gap: 4rem;
+    }
+    .marquee-item strong { font-weight: 500; color: var(--cream); font-style: normal; }
+    .marquee-dot {
+      width: 6px; height: 6px; background: var(--gold);
+      border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       SECTION SHARED STYLES
+    ───────────────────────────────────────────────────── */
+    section { padding: clamp(80px, 12vw, 140px) clamp(1.5rem, 6vw, 5rem); }
+    .section-eyebrow {
+      font-size: .72rem; font-weight: 500; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.2rem; display: block;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--cream);
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-body {
+      font-size: 1.05rem; color: var(--text-muted);
+      line-height: 1.85; max-width: 600px;
+    }
+    /* fade-in-up animation via IntersectionObserver */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .9s var(--ease-out), transform .9s var(--ease-out);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s !important; }
+    .reveal-delay-2 { transition-delay: .2s !important; }
+    .reveal-delay-3 { transition-delay: .32s !important; }
+    .reveal-delay-4 { transition-delay: .45s !important; }
+
+    /* ─────────────────────────────────────────────────────
+       PERCORSI SECTION
+    ───────────────────────────────────────────────────── */
+    #percorsi { background: var(--forest-dark); }
+    .percorsi-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 2rem; flex-wrap: wrap; margin-bottom: 4rem;
+    }
+    .percorsi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .percorso-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform var(--dur-mid) var(--ease-out),
+                  box-shadow var(--dur-mid) var(--ease-out),
+                  border-color var(--dur-mid);
+      transform-style: preserve-3d;
+    }
+    .percorso-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,150,58,.08), transparent 70%);
+      opacity: 0; transition: opacity var(--dur-mid);
+      border-radius: var(--radius-lg);
+    }
+    .percorso-card:hover {
+      transform: translateY(-6px) rotateX(2deg) rotateY(-1deg);
+      box-shadow: 0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(196,150,58,.3);
+      border-color: rgba(196,150,58,.35);
+    }
+    .percorso-card:hover::before { opacity: 1; }
+    .percorso-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem; font-weight: 300;
+      color: rgba(196,150,58,.12); line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .percorso-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+      transition: background var(--dur-fast), border-color var(--dur-fast);
+    }
+    .percorso-card:hover .percorso-icon {
+      background: rgba(196,150,58,.1);
+      border-color: rgba(196,150,58,.4);
+    }
+    .percorso-icon svg { width: 22px; height: 22px; stroke: var(--sage-light); stroke-width: 1.5; fill: none; }
+    .percorso-card:hover .percorso-icon svg { stroke: var(--gold-light); }
+    .percorso-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem; font-weight: 400;
+      color: var(--cream); margin-bottom: .75rem; line-height: 1.25;
+    }
+    .percorso-desc {
+      font-size: .9rem; color: var(--text-muted); line-height: 1.75;
+      margin-bottom: 1.75rem;
+    }
+    .percorso-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gold);
+      transition: gap var(--dur-fast);
+    }
+    .percorso-link svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .percorso-card:hover .percorso-link { gap: .8rem; }
+
+    /* ─────────────────────────────────────────────────────
+       CHI SONO SECTION
+    ───────────────────────────────────────────────────── */
+    #chi-sono {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 8vw, 7rem);
+      align-items: center;
+      background: var(--forest-deep);
+    }
+    @media (max-width: 900px) {
+      #chi-sono { grid-template-columns: 1fr; }
+    }
+    .chi-sono-media {
+      position: relative;
+    }
+    .chi-sono-frame {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+    .chi-sono-frame::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(135deg, transparent 50%, rgba(196,150,58,.15));
+    }
+    .chi-sono-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, var(--forest-light) 0%, var(--forest-mid) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem; color: var(--text-muted); font-size: .9rem; letter-spacing: .1em;
+    }
+    .chi-sono-placeholder svg { width: 64px; height: 64px; stroke: var(--gold); stroke-width: 1; fill: none; opacity: .5; }
+    .chi-sono-badge {
+      position: absolute; bottom: -16px; right: -16px; z-index: 2;
+      width: 120px; height: 120px;
+      background: var(--forest-dark);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+    .chi-sono-badge span:first-child {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; color: var(--gold); line-height: 1;
+    }
+    .chi-sono-badge span:last-child {
+      font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--text-muted); text-align: center; max-width: 70px;
+    }
+    .chi-sono-content { }
+    .chi-sono-quote {
+      margin: 2rem 0;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-style: italic;
+      color: var(--cream); line-height: 1.6;
+    }
+    .chi-sono-pills {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem;
+    }
+    .pill {
+      padding: 6px 16px;
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      font-size: .75rem; font-weight: 500; letter-spacing: .08em;
+      color: var(--sage-light);
+      background: rgba(120,152,124,.06);
+    }
+
+    /* ─────────────────────────────────────────────────────
+       SERVIZI SECTION
+    ───────────────────────────────────────────────────── */
+    #servizi { background: var(--forest-mid); }
+    .servizi-header {
+      text-align: center; max-width: 680px;
+      margin: 0 auto 4rem;
+    }
+    .servizi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 1024px) { .servizi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .servizi-grid { grid-template-columns: 1fr; } }
+    .servizio-card {
+      background: rgba(6,16,10,.6);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 2rem 1.75rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform var(--dur-mid) var(--ease-out),
+                  box-shadow var(--dur-mid),
+                  border-color var(--dur-mid);
+      cursor: pointer;
+    }
+    .servizio-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,.35);
+      border-color: rgba(196,150,58,.3);
+    }
+    .servizio-icon-wrap {
+      width: 52px; height: 52px;
+      background: rgba(196,150,58,.08);
+      border-radius: 14px; border: 1px solid rgba(196,150,58,.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+      transition: background var(--dur-fast);
+    }
+    .servizio-card:hover .servizio-icon-wrap { background: rgba(196,150,58,.15); }
+    .servizio-icon-wrap svg { width: 24px; height: 24px; stroke: var(--gold); stroke-width: 1.5; fill: none; }
+    .servizio-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400; color: var(--cream);
+      margin-bottom: .6rem; line-height: 1.3;
+    }
+    .servizio-desc {
+      font-size: .88rem; color: var(--text-muted); line-height: 1.7;
+    }
+    .servizio-tag {
+      display: inline-block; margin-top: 1.25rem;
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); opacity: .7;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       NUMBERS / STATS
+    ───────────────────────────────────────────────────── */
+    #numeri {
+      background: var(--forest-deep);
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 0;
+      padding: 0;
+    }
+    .numero-item {
+      flex: 1; min-width: 180px;
+      padding: clamp(40px, 8vw, 80px) 2rem;
+      border-right: 1px solid var(--glass-border);
+      text-align: center;
+    }
+    .numero-item:last-child { border-right: none; }
+    .numero-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 300; color: var(--gold); line-height: 1;
+    }
+    .numero-label {
+      font-size: .75rem; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--text-muted); margin-top: .5rem;
+    }
+
+    /* ─────────────────────────────────────────────────────
+       TESTIMONIALS
+    ───────────────────────────────────────────────────── */
+    #testimonianze { background: var(--forest-dark); overflow: hidden; }
+    .testi-header {
+      text-align: center; max-width: 560px;
+      margin: 0 auto 4rem;
+    }
+    .testi-carousel {
+      display: flex; gap: 1.5rem;
+      overflow-x: auto; overflow-y: visible;
+      padding-bottom: 1rem; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .testi-carousel::-webkit-scrollbar { display: none; }
+    .testi-card {
+      flex: 0 0 min(380px, 85vw);
+      scroll-snap-align: start;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      backdrop-filter: blur(12px);
+    }
+    .testi-stars {
+      display: flex; gap: 4px; margin-bottom: 1.25rem;
+    }
+    .testi-stars svg { width: 14px; height: 14px; fill: var(--gold); }
+    .testi-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-style: italic;
+      color: var(--cream); line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .testi-author {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--forest-light);
+      border: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; color: var(--gold);
+    }
+    .testi-name { font-size: .85rem; font-weight: 500; color: var(--cream); }
+    .testi-meta { font-size: .75rem; color: var(--text-muted); }
+    .testi-controls {
+      display: flex; gap: 1rem; justify-content: center; margin-top: 2.5rem;
+    }
+    .testi-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--dur-fast), border-color var(--dur-fast);
+      color: var(--text-muted);
+    }
+    .testi-btn:hover { background: rgba(196,150,58,.1); border-color: rgba(196,150,58,.3); color: var(--gold); }
+    .testi-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    /* ─────────────────────────────────────────────────────
+       BLOG SECTION
+    ───────────────────────────────────────────────────── */
+    #blog { background: var(--forest-deep); }
+    .blog-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3.5rem;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .blog-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      background: var(--forest-dark);
+      transition: transform var(--dur-mid) var(--ease-out),
+                  box-shadow var(--dur-mid);
+      cursor: pointer;
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+    .blog-thumb {
+      aspect-ratio: 16/9; overflow: hidden;
+      background: linear-gradient(135deg, var(--forest-light) 0%, var(--forest-mid) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .blog-thumb-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-style: italic;
+      color: rgba(240,230,208,.3); text-align: center; padding: 1rem;
+    }
+    .blog-thumb-date {
+      position: absolute; top: 1rem; left: 1rem;
+      background: rgba(6,16,10,.7); backdrop-filter: blur(8px);
+      padding: 4px 12px; border-radius: 100px;
+      font-size: .7rem; letter-spacing: .1em; color: var(--gold);
+    }
+    .blog-body { padding: 1.5rem; }
+    .blog-cat {
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: .75rem;
+    }
+    .blog-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 400;
+      color: var(--cream); line-height: 1.4; margin-bottom: .6rem;
+    }
+    .blog-excerpt { font-size: .85rem; color: var(--text-muted); line-height: 1.7; }
+    .blog-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--glass-border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .blog-read {
+      font-size: .75rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .blog-read svg { width: 12px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .blog-time { font-size: .75rem; color: var(--text-muted); }
+
+    /* ─────────────────────────────────────────────────────
+       CTA FINALE
+    ───────────────────────────────────────────────────── */
+    #cta-finale {
+      background: var(--forest-mid);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta-finale::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(196,150,58,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .cta-ornament {
+      width: 60px; height: 1px; background: var(--gold);
+      margin: 0 auto 2rem; opacity: .5;
+    }
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.15; color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-body {
+      font-size: 1.05rem; color: var(--text-muted);
+      line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .cta-contact {
+      display: flex; gap: 2rem; justify-content: center;
+      flex-wrap: wrap; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid var(--glass-border);
+    }
+    .cta-contact-item {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .88rem; color: var(--text-muted);
+    }
+    .cta-contact-item svg { width: 16px; stroke: var(--gold); stroke-width: 1.5; fill: none; }
+    .cta-contact-item a { color: var(--sage-light); transition: color var(--dur-fast); }
+    .cta-contact-item a:hover { color: var(--gold); }
+
+    /* ─────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────── */
+    footer {
+      background: var(--forest-deep);
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem clamp(1.5rem, 6vw, 5rem);
+    }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    @media (max-width: 900px)  { .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px)  { .footer-inner { grid-template-columns: 1fr; } }
+    .footer-brand .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 500; letter-spacing: .1em; color: var(--cream);
+      margin-bottom: 1rem;
+    }
+    .footer-brand p {
+      font-size: .85rem; color: var(--text-muted); line-height: 1.75;
+      max-width: 280px;
+    }
+    .footer-social {
+      display: flex; gap: .75rem; margin-top: 1.5rem;
+    }
+    .footer-social a {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--dur-fast), border-color var(--dur-fast);
+    }
+    .footer-social a:hover { background: rgba(196,150,58,.1); border-color: rgba(196,150,58,.3); }
+    .footer-social svg { width: 15px; stroke: var(--text-muted); stroke-width: 1.5; fill: none; }
+    .footer-col h4 {
+      font-size: .72rem; font-weight: 600; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--cream); margin-bottom: 1.25rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a {
+      font-size: .85rem; color: var(--text-muted);
+      transition: color var(--dur-fast);
+    }
+    .footer-col ul a:hover { color: var(--cream); }
+    .footer-bottom {
+      padding-top: 2rem; border-top: 1px solid var(--glass-border);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: .78rem; color: var(--text-muted); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: .78rem; color: var(--text-muted); transition: color var(--dur-fast); }
+    .footer-legal a:hover { color: var(--cream); }
+
+    /* ─────────────────────────────────────────────────────
+       3D ORB / DECORATIVE
+    ───────────────────────────────────────────────────── */
+    .orb-container {
+      position: absolute; pointer-events: none; overflow: visible;
+    }
+    .orb {
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: orbFloat 8s ease-in-out infinite alternate;
+    }
+    @keyframes orbFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(20px, -30px) scale(1.1); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       21ST.DEV ENHANCEMENTS
+    ═══════════════════════════════════════════════════ */
+
+    /* ── Custom Luxury Cursor ── */
+    @media (pointer: fine) {
+      body { cursor: none; }
+      a, button, [role="button"] { cursor: none; }
+    }
+    .cursor-dot {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .25s var(--ease-out), height .25s var(--ease-out),
+                  background .25s, opacity .3s;
+      will-change: left, top;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(196,150,58,.38);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .35s var(--ease-out), height .35s var(--ease-out),
+                  border-color .3s, opacity .3s;
+      will-change: left, top;
+    }
+    .cursor-dot.expanded  { width: 5px;  height: 5px;  background: var(--gold-light); }
+    .cursor-ring.expanded { width: 54px; height: 54px; border-color: rgba(196,150,58,.6); }
+    .cursor-dot.hidden, .cursor-ring.hidden { opacity: 0; }
+
+    /* ── Spotlight Cards (mouse-tracking radial glow) ── */
+    .percorso-card .sp-layer,
+    .servizio-card .sp-layer,
+    .testi-card    .sp-layer,
+    .blog-card     .sp-layer {
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        260px circle at var(--spx, 50%) var(--spy, 50%),
+        rgba(196,150,58,.09), transparent 70%
+      );
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .35s;
+    }
+    .percorso-card:hover .sp-layer,
+    .servizio-card:hover .sp-layer,
+    .testi-card:hover    .sp-layer,
+    .blog-card:hover     .sp-layer { opacity: 1; }
+
+    /* ── Shiny Button (sweep shimmer on hover) ── */
+    .btn-primary { position: relative; overflow: hidden; isolation: isolate; }
+    .btn-primary .btn-shine {
+      position: absolute; top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(
+        to right, transparent, rgba(255,255,255,.22), transparent
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+    }
+    .btn-primary:hover .btn-shine {
+      animation: btnShine .55s var(--ease-out) forwards;
+    }
+    @keyframes btnShine { to { left: 160%; } }
+
+    /* ── Aurora Gradient (animated conic for CTA) ── */
+    #cta-finale { position: relative; overflow: hidden; }
+    .aurora-wrap {
+      position: absolute; inset: -50%; z-index: 0;
+      pointer-events: none;
+      animation: auroraRotate 22s linear infinite;
+    }
+    .aurora-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(196,150,58,.055)   0deg,
+        rgba(120,152,124,.07)   90deg,
+        rgba(196,150,58,.03)   180deg,
+        rgba(28,59,32,.0)      250deg,
+        rgba(196,150,58,.055)  360deg
+      );
+      border-radius: 50%;
+    }
+    @keyframes auroraRotate { to { transform: rotate(360deg); } }
+    #cta-finale .cta-inner { position: relative; z-index: 1; }
+
+    /* ── Number Ticker (smooth count-up) ── */
+    .numero-value { font-variant-numeric: tabular-nums; }
+
+    /* ── Subtle Grain Texture on Hero ── */
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1;
+      pointer-events: none; opacity: .028;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 280px 280px;
+      background-repeat: repeat;
+    }
+
+    /* ── Magnetic Button (subtle pull toward cursor) ── */
+    .btn-primary, .btn-ghost {
+      transition: background var(--dur-fast), transform .18s var(--ease-out),
+                  box-shadow var(--dur-fast);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── 21st.dev: Custom Cursor ── -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ───────── PRELOADER ───────── -->
+<div id="preloader">
+  <div class="pre-logo">Valeria Milan</div>
+  <div class="pre-bar"></div>
+</div>
+
+<!-- ───────── NAVIGATION ───────── -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 16 16">
+        <circle cx="8" cy="8" r="3"/>
+        <path d="M8 1v3M8 12v3M1 8h3M12 8h3" stroke="#C4963A" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    Valeria Milan
+  </a>
+  <ul class="nav-links">
+    <li><a href="chi-sono.html">Chi Sono</a></li>
+    <li><a href="percorsi.html">Percorsi</a></li>
+    <li><a href="servizi.html">Servizi</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ───────── HERO ───────── -->
+<section id="hero">
+  <div class="hero-sticky">
+    <!-- Scroll-driven canvas "video" -->
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-bg-gradient"></div>
+    <!-- 21st.dev: Grain texture for depth -->
+    <div class="hero-grain" aria-hidden="true"></div>
+
+    <!-- Narrative text layers (shown at different scroll stages) -->
+    <div class="hero-narrative" id="heroNarrative">
+      <p id="n0" class="active">Sei perso nel caos della vita quotidiana?</p>
+      <p id="n1">Il rumore interiore si fa sempre più forte…</p>
+      <p id="n2">Ma dentro di te c'è già la risposta</p>
+      <p id="n3">Scopri il tuo ritmo naturale</p>
+      <p id="n4">Inizia il viaggio verso te stesso</p>
+    </div>
+
+    <!-- Main hero text (visible at start, fades on scroll) -->
+    <div class="hero-content" id="heroContent">
+      <span class="hero-eyebrow" id="heroEyebrow">Resilienza Creativa · Bressanvido</span>
+      <h1 class="hero-title" id="heroTitle">
+        Ritrova<br>il tuo <em>centro</em>
+      </h1>
+      <p class="hero-sub" id="heroSub">
+        Counseling olistico e percorsi di crescita personale per riconnetterti
+        con la tua essenza più profonda — non per cambiare chi sei, ma per ricordarlo.
+      </p>
+      <div class="hero-actions" id="heroActions">
+        <a href="percorsi.html" class="btn-primary"><span class="btn-shine" aria-hidden="true"></span>Esplora i Percorsi</a>
+        <a href="chi-sono.html" class="btn-ghost">Conosciamoci</a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-mouse"></div>
+      <span>Scorri per scoprire</span>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── MARQUEE ───────── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <!-- repeated for seamless loop -->
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span>Counseling Olistico</span>
+      <span class="marquee-dot"></span>
+      <strong>Mindfulness</strong>
+      <span class="marquee-dot"></span>
+      <span>Respiro Consapevole</span>
+      <span class="marquee-dot"></span>
+      <strong>Biorisonanza</strong>
+      <span class="marquee-dot"></span>
+      <span>Crescita Personale</span>
+      <span class="marquee-dot"></span>
+      <strong>Percorsi di Gruppo</strong>
+      <span class="marquee-dot"></span>
+      <span>Matrix Drops</span>
+      <span class="marquee-dot"></span>
+    </div>
+    <div class="marquee-item">
+      <span class="marquee-dot"></span>
+      <span>Counseling Olistico</span>
+      <span class="marquee-dot"></span>
+      <strong>Mindfulness</strong>
+      <span class="marquee-dot"></span>
+      <span>Respiro Consapevole</span>
+      <span class="marquee-dot"></span>
+      <strong>Biorisonanza</strong>
+      <span class="marquee-dot"></span>
+      <span>Crescita Personale</span>
+      <span class="marquee-dot"></span>
+      <strong>Percorsi di Gruppo</strong>
+      <span class="marquee-dot"></span>
+      <span>Matrix Drops</span>
+      <span class="marquee-dot"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── PERCORSI ───────── -->
+<section id="percorsi">
+  <div class="percorsi-header">
+    <div>
+      <span class="section-eyebrow reveal">Percorsi Individuali</span>
+      <h2 class="section-title reveal reveal-delay-1">
+        Quattro vie verso<br><em>te stesso</em>
+      </h2>
+    </div>
+    <a href="percorsi.html" class="btn-ghost reveal reveal-delay-2">Vedi tutti</a>
+  </div>
+  <div class="percorsi-grid">
+    <div class="percorso-card reveal">
+      <div class="percorso-number">01</div>
+      <div class="percorso-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L8 8H2l4.5 3.5L4.8 18 10 15l2 6 2-6 5.2 3-1.7-6.5L22 8h-6L12 2z"/></svg>
+      </div>
+      <h3 class="percorso-title">Imparare a<br>dire NO</h3>
+      <p class="percorso-desc">Impara a stabilire confini sani con rispetto e amore. Libera il tuo spazio interiore dalle richieste che ti soffocano.</p>
+      <a href="percorsi.html#no" class="percorso-link">
+        Scopri il percorso
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="percorso-card reveal reveal-delay-1">
+      <div class="percorso-number">02</div>
+      <div class="percorso-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3 class="percorso-title">Ferma il<br>Tempo</h3>
+      <p class="percorso-desc">Ritrova la presenza nel momento presente attraverso pratiche di mindfulness e meditazione guidata. Il ritmo è tuo.</p>
+      <a href="percorsi.html#tempo" class="percorso-link">
+        Scopri il percorso
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="percorso-card reveal reveal-delay-2">
+      <div class="percorso-number">03</div>
+      <div class="percorso-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 21C12 21 4 13.6 4 9a8 8 0 1116 0c0 4.6-8 12-8 12z"/><circle cx="12" cy="9" r="3"/></svg>
+      </div>
+      <h3 class="percorso-title">La Strada della<br>Felicità</h3>
+      <p class="percorso-desc">Un viaggio verso la gioia autentica: riconnettiti con i tuoi valori profondi e scopri cosa ti fa davvero sentire vivo.</p>
+      <a href="percorsi.html#felicita" class="percorso-link">
+        Scopri il percorso
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="percorso-card reveal reveal-delay-3">
+      <div class="percorso-number">04</div>
+      <div class="percorso-icon">
+        <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+      </div>
+      <h3 class="percorso-title">Il Vento del<br>Cambiamento</h3>
+      <p class="percorso-desc">Accompagnamento nei momenti di transizione esistenziale: perdita, scelta, rinascita. Il cambiamento è già in te.</p>
+      <a href="percorsi.html#cambiamento" class="percorso-link">
+        Scopri il percorso
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CHI SONO ───────── -->
+<section id="chi-sono">
+  <div class="chi-sono-media reveal">
+    <div class="chi-sono-frame">
+      <div class="chi-sono-placeholder">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="22" r="12"/><path d="M8 56c0-13.3 10.7-24 24-24s24 10.7 24 24"/></svg>
+        <span>Valeria Milan</span>
+      </div>
+    </div>
+    <div class="chi-sono-badge">
+      <span>15+</span>
+      <span>anni di esperienza</span>
+    </div>
+  </div>
+  <div class="chi-sono-content">
+    <span class="section-eyebrow reveal">Chi Sono</span>
+    <h2 class="section-title reveal reveal-delay-1">
+      Una guida nel<br>tuo <em>viaggio interiore</em>
+    </h2>
+    <blockquote class="chi-sono-quote reveal reveal-delay-2">
+      "Non sei rotto. Non hai bisogno di essere aggiustato.<br>Hai bisogno di essere <em>ricordato</em>."
+    </blockquote>
+    <p class="section-body reveal reveal-delay-3">
+      Sono Valeria Milan, counselor olistica e facilitatrice di crescita personale.
+      Lavoro con persone che si trovano agli "imbuti esistenziali" della vita —
+      quei momenti in cui sembra non esserci via d'uscita. Il mio approccio integra
+      Scienza dello Spirito, mindfulness, biorisonanza e respirazione consapevole.
+    </p>
+    <div class="chi-sono-pills reveal reveal-delay-4">
+      <span class="pill">Counseling Olistico</span>
+      <span class="pill">Legge 4/2013</span>
+      <span class="pill">Mindfulness</span>
+      <span class="pill">Biorisonanza</span>
+      <span class="pill">Vicenza · Online</span>
+    </div>
+    <div style="margin-top:2.5rem" class="reveal reveal-delay-4">
+      <a href="chi-sono.html" class="btn-primary"><span class="btn-shine" aria-hidden="true"></span>Conosciamoci meglio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── NUMERI ───────── -->
+<div id="numeri">
+  <div class="numero-item reveal">
+    <div class="numero-value">15+</div>
+    <div class="numero-label">Anni di Esperienza</div>
+  </div>
+  <div class="numero-item reveal reveal-delay-1">
+    <div class="numero-value">400+</div>
+    <div class="numero-label">Persone Accompagnate</div>
+  </div>
+  <div class="numero-item reveal reveal-delay-2">
+    <div class="numero-value">6</div>
+    <div class="numero-label">Metodologie Integrate</div>
+  </div>
+  <div class="numero-item reveal reveal-delay-3">
+    <div class="numero-value">100%</div>
+    <div class="numero-label">Percorsi Personalizzati</div>
+  </div>
+</div>
+
+<!-- ───────── SERVIZI ───────── -->
+<section id="servizi">
+  <div class="servizi-header">
+    <span class="section-eyebrow reveal">Servizi</span>
+    <h2 class="section-title reveal reveal-delay-1">
+      Un approccio<br><em>integrato</em> al benessere
+    </h2>
+    <p class="section-body reveal reveal-delay-2" style="margin:1.5rem auto 0">
+      Ogni strumento è scelto per rispondere alla tua unicità.
+      Insieme troviamo il percorso che risuona con la tua essenza.
+    </p>
+  </div>
+  <div class="servizi-grid">
+    <div class="servizio-card reveal">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <h3 class="servizio-title">Counseling Olistico</h3>
+      <p class="servizio-desc">Ascolto empatico e non giudicante per supportarti nelle scelte difficili, nelle transizioni e nei momenti di impasse.</p>
+      <span class="servizio-tag">In presenza · Online</span>
+    </div>
+    <div class="servizio-card reveal reveal-delay-1">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v20M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <h3 class="servizio-title">Mindfulness e Meditazione</h3>
+      <p class="servizio-desc">Tecniche di presenza e consapevolezza per ridurre lo stress e ritrovare il contatto con il momento presente.</p>
+      <span class="servizio-tag">Individuale · Gruppo</span>
+    </div>
+    <div class="servizio-card reveal reveal-delay-2">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+      </div>
+      <h3 class="servizio-title">Respiro Consapevole</h3>
+      <p class="servizio-desc">Il respiro come strumento primario di trasformazione. Tecniche di breathwork per liberare blocchi emotivi e fisici.</p>
+      <span class="servizio-tag">Sedute 90 min</span>
+    </div>
+    <div class="servizio-card reveal reveal-delay-1">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <h3 class="servizio-title">Biorisonanza Olistica</h3>
+      <p class="servizio-desc">Tecnologia innovativa per l'analisi e il riequilibrio delle frequenze energetiche corporee. Un approccio complementare unico.</p>
+      <span class="servizio-tag">Strumento avanzato</span>
+    </div>
+    <div class="servizio-card reveal reveal-delay-2">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <h3 class="servizio-title">Percorsi di Gruppo</h3>
+      <p class="servizio-desc">L'intelligenza collettiva come risorsa. Workshop e percorsi di gruppo per crescere insieme con la forza della comunità.</p>
+      <span class="servizio-tag">Workshop · Retreat</span>
+    </div>
+    <div class="servizio-card reveal reveal-delay-3">
+      <div class="servizio-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h3 class="servizio-title">Matrix Drops · Quintessenze</h3>
+      <p class="servizio-desc">Quintessenze vibrazioni sottili per supportare i processi di trasformazione interiore e il riequilibrio energetico-emotivo.</p>
+      <span class="servizio-tag">Analisi · Supporto</span>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:3rem" class="reveal">
+    <a href="servizi.html" class="btn-ghost">Esplora tutti i servizi</a>
+  </div>
+</section>
+
+<!-- ───────── TESTIMONIANZE ───────── -->
+<section id="testimonianze">
+  <div class="testi-header">
+    <span class="section-eyebrow reveal">Testimonianze</span>
+    <h2 class="section-title reveal reveal-delay-1">
+      Voci di chi ha<br><em>camminato</em> con me
+    </h2>
+  </div>
+  <div class="testi-carousel" id="testiCarousel">
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testi-quote">"Con Valeria ho scoperto un lato di me che non credevo esistesse. Ogni sessione è stata un regalo inaspettato verso me stessa."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Sara M.</div>
+          <div class="testi-meta">Percorso: La Strada della Felicità</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testi-quote">"La biorisonanza è stata rivoluzionaria. Non avevo parole per descrivere quello che sentivo — Valeria mi ha aiutato a trovare il mio linguaggio interiore."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <div class="testi-name">Marco R.</div>
+          <div class="testi-meta">Percorso: Il Vento del Cambiamento</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testi-quote">"Finalmente ho imparato a dire no senza senso di colpa. Valeria ha creato uno spazio sicuro dove ho potuto essere davvero me stessa."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">L</div>
+        <div>
+          <div class="testi-name">Laura T.</div>
+          <div class="testi-meta">Percorso: Imparare a Dire NO</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="testi-quote">"La meditazione con Valeria mi ha dato strumenti concreti che uso ogni giorno. Il cambiamento è stato graduale ma profondo e duraturo."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">F</div>
+        <div>
+          <div class="testi-name">Francesca B.</div>
+          <div class="testi-meta">Percorso: Ferma il Tempo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="testi-controls">
+    <button class="testi-btn" id="testiPrev" aria-label="Precedente">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <button class="testi-btn" id="testiNext" aria-label="Successivo">
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ───────── BLOG ───────── -->
+<section id="blog">
+  <div class="blog-header">
+    <div>
+      <span class="section-eyebrow reveal">Blog</span>
+      <h2 class="section-title reveal reveal-delay-1">Riflessioni per<br><em>il viaggio</em></h2>
+    </div>
+    <a href="blog.html" class="btn-ghost reveal reveal-delay-2">Tutti gli articoli</a>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card reveal">
+      <div class="blog-thumb">
+        <span class="blog-thumb-label">Vivi per Realizzare o per Lavorare?</span>
+        <span class="blog-thumb-date">Apr 2023</span>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Crescita Personale</div>
+        <h3 class="blog-title">Vivi per Realizzare o per Lavorare?</h3>
+        <p class="blog-excerpt">La maggior parte delle persone è insoddisfatta di quello che fa nella vita. Non perché il lavoro sia sbagliato, ma perché...</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">5 min di lettura</span>
+      </div>
+    </div>
+    <div class="blog-card reveal reveal-delay-1">
+      <div class="blog-thumb">
+        <span class="blog-thumb-label">Come Liberarsi dai Parassiti Spirituali</span>
+        <span class="blog-thumb-date">Gen 2023</span>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Spiritualità</div>
+        <h3 class="blog-title">Come Liberarsi dai Parassiti Spirituali</h3>
+        <p class="blog-excerpt">Hai presente quelle situazioni in cui dopo aver trascorso del tempo con qualcuno il tuo livello di energia è molto basso...</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">7 min di lettura</span>
+      </div>
+    </div>
+    <div class="blog-card reveal reveal-delay-2">
+      <div class="blog-thumb">
+        <span class="blog-thumb-label">Come Essere Se Stessi?</span>
+        <span class="blog-thumb-date">Nov 2022</span>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Autenticità</div>
+        <h3 class="blog-title">Come Essere Se Stessi?</h3>
+        <p class="blog-excerpt">Uno dei percorsi più coraggiosi che un essere umano possa intraprendere è quello verso la propria verità più profonda...</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">6 min di lettura</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CTA FINALE ───────── -->
+<section id="cta-finale">
+  <!-- 21st.dev: Aurora animated background -->
+  <div class="aurora-wrap" aria-hidden="true"></div>
+  <div class="cta-inner">
+    <div class="cta-ornament reveal"></div>
+    <h2 class="cta-title reveal reveal-delay-1">
+      Pronto a iniziare<br>il tuo <em>viaggio</em>?
+    </h2>
+    <p class="cta-body reveal reveal-delay-2">
+      Ogni trasformazione inizia con un primo passo. Prenota una chiamata conoscitiva gratuita
+      e scopri insieme a Valeria quale percorso risuona con la tua essenza.
+    </p>
+    <div class="reveal reveal-delay-3">
+      <a href="contatti.html" class="btn-primary" style="font-size:.9rem;padding:16px 40px;">
+        <span class="btn-shine" aria-hidden="true"></span>Prenota la tua chiamata gratuita
+      </a>
+    </div>
+    <div class="cta-contact reveal reveal-delay-4">
+      <div class="cta-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.86 13.5a19.79 19.79 0 01-3.07-8.67A2 2 0 013.77 2.75h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.72 6.72l1.06-1.06a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        <a href="tel:+393394460548">+39 339 446 0548</a>
+      </div>
+      <div class="cta-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:info@valeria-milan.it">info@valeria-milan.it</a>
+      </div>
+      <div class="cta-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Bressanvido (VI) · Online</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── FOOTER ───────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Valeria Milan</div>
+      <p>Counselor olistica e facilitatrice di crescita personale. Professionista disciplinata ai sensi della legge 4/2013.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" aria-label="Telegram">
+          <svg viewBox="0 0 24 24"><path d="M21.198 2.433a2.242 2.242 0 00-2.281.245l-16.5 9.5a2.24 2.24 0 00.265 3.997l3.813 1.567 1.977 6.094a.5.5 0 00.879.165l3.028-3.5 4.028 3.123a2.24 2.24 0 003.448-1.461l2.5-17.5a2.241 2.241 0 00-1.157-2.23z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Percorsi</h4>
+      <ul>
+        <li><a href="percorsi.html#no">Imparare a dire NO</a></li>
+        <li><a href="percorsi.html#tempo">Ferma il Tempo</a></li>
+        <li><a href="percorsi.html#felicita">La Strada della Felicità</a></li>
+        <li><a href="percorsi.html#cambiamento">Il Vento del Cambiamento</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Servizi</h4>
+      <ul>
+        <li><a href="servizi.html#counseling">Counseling Olistico</a></li>
+        <li><a href="servizi.html#mindfulness">Mindfulness</a></li>
+        <li><a href="servizi.html#respiro">Respiro Consapevole</a></li>
+        <li><a href="servizi.html#biorisonanza">Biorisonanza</a></li>
+        <li><a href="servizi.html#gruppo">Percorsi di Gruppo</a></li>
+        <li><a href="servizi.html#matrix">Matrix Drops</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informazioni</h4>
+      <ul>
+        <li><a href="chi-sono.html">Chi Sono</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contatti.html">Contatti</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Valeria Milan · P.IVA 04265600249 · CF MLNVLR73P58L840R</p>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Condizioni di Vendita</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  HERO SCROLL-DRIVEN CANVAS ANIMATION
+//  "Video" that plays forward on scroll-down, backward on scroll-up
+// ═══════════════════════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], animFrame;
+
+  const PARTICLE_COUNT = 260;
+  let progress = 0; // 0 = chaos, 1 = harmony
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    initParticles();
+  }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function easeInOut(t) {
+    return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+  }
+  function clamp(v, mn, mx) { return Math.max(mn, Math.min(mx, v)); }
+
+  class Particle {
+    constructor(i) {
+      this.reset(i);
+    }
+    reset(i) {
+      // Chaos: random position
+      this.cx = Math.random() * W;
+      this.cy = Math.random() * H;
+      // Harmony: Fibonacci / golden angle spiral (mandala)
+      const golden = Math.PI * (3 - Math.sqrt(5));
+      const angle  = i * golden;
+      const r      = Math.sqrt(i / PARTICLE_COUNT) * Math.min(W, H) * .38;
+      this.hx = W * .5 + Math.cos(angle) * r;
+      this.hy = H * .5 + Math.sin(angle) * r;
+      this.size   = Math.random() * 2.5 + .6;
+      this.speed  = Math.random() * .4 + .6;
+      // Drift for chaos animation
+      this.driftX = (Math.random() - .5) * 1.2;
+      this.driftY = (Math.random() - .5) * 1.2;
+      this.phase  = Math.random() * Math.PI * 2;
+      this.twinkle = Math.random();
+    }
+  }
+
+  function initParticles() {
+    particles = Array.from({length: PARTICLE_COUNT}, (_, i) => {
+      const p = new Particle(i);
+      p.cx = Math.random() * W;
+      p.cy = Math.random() * H;
+      return p;
+    });
+  }
+
+  let lastTime = 0;
+  function draw(ts) {
+    const dt = Math.min((ts - lastTime) / 16.67, 3);
+    lastTime = ts;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Background gradient — shifts from deep forest to golden dawn as progress → 1
+    const bg = ctx.createRadialGradient(W*.5, H*.5, 0, W*.5, H*.5, Math.max(W, H)*.7);
+    const bgR = Math.round(lerp(6,  12, progress));
+    const bgG = Math.round(lerp(16, 20, progress));
+    const bgB = Math.round(lerp(10,  8, progress));
+    bg.addColorStop(0, `rgba(${bgR},${bgG},${bgB},0)`);
+    bg.addColorStop(1, `rgba(${bgR},${bgG},${bgB},.92)`);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    const ease = easeInOut(progress);
+    const time  = ts * .0006;
+
+    // Central glow ring at harmony
+    if (progress > .1) {
+      const glowAlpha = ease * .18;
+      const glowR = lerp(100, 196, ease);
+      const glowG = lerp(200, 150, ease);
+      const glowB = lerp(120,  58, ease);
+      for (let ring = 3; ring >= 1; ring--) {
+        const gr = ctx.createRadialGradient(W*.5, H*.5, 0, W*.5, H*.5, ring * Math.min(W,H)*.15*ease);
+        gr.addColorStop(0, `rgba(${glowR},${glowG},${glowB},${glowAlpha/ring})`);
+        gr.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = gr;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Chaotic drift animation (applied when progress < 1)
+      const chaosFactor = 1 - ease;
+      const driftScale  = chaosFactor * 1.8;
+      p.cx += p.driftX * driftScale * dt;
+      p.cy += p.driftY * driftScale * dt;
+      // Wrap around
+      if (p.cx < 0) p.cx = W; if (p.cx > W) p.cx = 0;
+      if (p.cy < 0) p.cy = H; if (p.cy > H) p.cy = 0;
+
+      // Interpolated position
+      const x = lerp(p.cx, p.hx, ease);
+      const y = lerp(p.cy, p.hy, ease);
+
+      // Twinkle
+      const twinkle = .5 + .5 * Math.sin(time * p.speed * 3 + p.phase);
+      const alpha   = (.15 + .85 * twinkle) * clamp(ease * 4 + .15, .1, 1);
+
+      // Color: teal-sage → gold
+      const r = Math.round(lerp(80, 220, ease));
+      const g = Math.round(lerp(180, 160, ease));
+      const b = Math.round(lerp(120, 60, ease));
+
+      const size = p.size * (1 + chaosFactor * .8 * twinkle);
+
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+      ctx.fill();
+
+      // Connection lines for particles close together in harmony
+      if (ease > .5 && i < particles.length - 1) {
+        const p2 = particles[(i + 1) % particles.length];
+        const x2 = lerp(p2.cx, p2.hx, ease);
+        const y2 = lerp(p2.cy, p2.hy, ease);
+        const dist = Math.hypot(x2 - x, y2 - y);
+        const maxDist = 80 * ease;
+        if (dist < maxDist) {
+          const lineAlpha = (1 - dist/maxDist) * ease * .15;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = `rgba(196,150,58,${lineAlpha})`;
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    animFrame = requestAnimationFrame(draw);
+  }
+
+  // ── SCROLL → PROGRESS MAPPING ──────────────────────────
+  let targetProgress = 0;
+
+  function onScroll() {
+    const heroEl = document.getElementById('hero');
+    const heroH  = heroEl.offsetHeight; // 500vh
+    const scrollY = window.scrollY;
+    // Map scroll from 0 to heroH
+    targetProgress = clamp(scrollY / (heroH - window.innerHeight), 0, 1);
+    updateNarrative(targetProgress);
+    updateHeroContent(targetProgress);
+  }
+
+  // Smooth lerp scroll progress towards target
+  function smoothProgress() {
+    progress = lerp(progress, targetProgress, .06);
+    requestAnimationFrame(smoothProgress);
+  }
+
+  // Narrative text at different scroll stages
+  function updateNarrative(p) {
+    const texts = ['n0','n1','n2','n3','n4'];
+    const idx = Math.floor(p * texts.length);
+    texts.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.className = i === Math.min(idx, texts.length-1) ? 'active' : '';
+    });
+  }
+
+  // Fade hero main content out as user scrolls
+  function updateHeroContent(p) {
+    const content = document.getElementById('heroContent');
+    if (!content) return;
+    const fade = clamp(1 - p * 4, 0, 1);
+    content.style.opacity   = fade;
+    content.style.transform = `translateY(${-p * 60}px)`;
+  }
+
+  window.addEventListener('scroll', onScroll, {passive: true});
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(draw);
+  smoothProgress();
+
+  // Trigger initial hero animations
+  setTimeout(() => {
+    document.getElementById('heroEyebrow')?.classList.add('visible');
+    setTimeout(() => document.getElementById('heroTitle')?.classList.add('visible'), 200);
+    setTimeout(() => document.getElementById('heroSub')?.classList.add('visible'), 400);
+    setTimeout(() => document.getElementById('heroActions')?.classList.add('visible'), 600);
+  }, 1100);
+})();
+
+// ═══════════════════════════════════════════════════════
+//  PRELOADER
+// ═══════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+  }, 1600);
+});
+
+// ═══════════════════════════════════════════════════════
+//  NAVBAR SCROLL STATE
+// ═══════════════════════════════════════════════════════
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive: true});
+
+// ═══════════════════════════════════════════════════════
+//  INTERSECTION OBSERVER — REVEAL ANIMATIONS
+// ═══════════════════════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: .12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ═══════════════════════════════════════════════════════
+//  21ST.DEV ENHANCEMENT: CUSTOM LUXURY CURSOR
+// ═══════════════════════════════════════════════════════
+(function() {
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !ring) return;
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+    dot.classList.remove('hidden');
+    ring.classList.remove('hidden');
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    dot.classList.add('hidden');
+    ring.classList.add('hidden');
+  });
+
+  // Smooth lag for ring
+  (function animRing() {
+    rx += (mx - rx) * .11;
+    ry += (my - ry) * .11;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  // Scale on interactive elements
+  const hoverEls = document.querySelectorAll(
+    'a, button, .percorso-card, .servizio-card, .testi-card, .blog-card, .nav-cta'
+  );
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.classList.add('expanded');
+      ring.classList.add('expanded');
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('expanded');
+      ring.classList.remove('expanded');
+    });
+  });
+})();
+
+// ═══════════════════════════════════════════════════════
+//  21ST.DEV ENHANCEMENT: SPOTLIGHT CARDS
+//  Mouse-tracking radial glow inside each card
+// ═══════════════════════════════════════════════════════
+(function() {
+  const selectors = '.percorso-card, .servizio-card, .testi-card, .blog-card';
+  document.querySelectorAll(selectors).forEach(card => {
+    // Inject spotlight layer
+    const sp = document.createElement('div');
+    sp.className = 'sp-layer';
+    sp.setAttribute('aria-hidden', 'true');
+    card.appendChild(sp);
+
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--spx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--spy', (e.clientY - r.top)  + 'px');
+    }, { passive: true });
+  });
+})();
+
+// ═══════════════════════════════════════════════════════
+//  21ST.DEV ENHANCEMENT: NUMBER TICKER
+//  Animated count-up on scroll entry
+// ═══════════════════════════════════════════════════════
+(function() {
+  function runTicker(el) {
+    const raw    = el.textContent.trim();
+    const suffix = raw.replace(/[\d.]/g, '');        // e.g. '+' or '%'
+    const target = parseFloat(raw.replace(/[^\d.]/g, ''));
+    if (isNaN(target)) return;
+
+    const dur = 2400;
+    const start = performance.now();
+
+    function tick(now) {
+      const p    = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);          // ease-out cubic
+      const val  = p < 1 ? Math.floor(ease * target) : target;
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        runTicker(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: .7 });
+
+  document.querySelectorAll('.numero-value').forEach(el => obs.observe(el));
+})();
+
+// ═══════════════════════════════════════════════════════
+//  21ST.DEV ENHANCEMENT: MAGNETIC BUTTONS
+//  Subtle cursor-attraction on primary CTAs
+// ═══════════════════════════════════════════════════════
+document.querySelectorAll('.btn-primary').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r  = btn.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width  / 2)) * .22;
+    const dy = (e.clientY - (r.top  + r.height / 2)) * .22;
+    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  TESTIMONIAL CAROUSEL
+// ═══════════════════════════════════════════════════════
+const carousel = document.getElementById('testiCarousel');
+document.getElementById('testiNext')?.addEventListener('click', () => {
+  carousel.scrollBy({ left: 400, behavior: 'smooth' });
+});
+document.getElementById('testiPrev')?.addEventListener('click', () => {
+  carousel.scrollBy({ left: -400, behavior: 'smooth' });
+});
+
+// ═══════════════════════════════════════════════════════
+//  3D CARD TILT
+// ═══════════════════════════════════════════════════════
+document.querySelectorAll('.percorso-card, .servizio-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const cx   = rect.left + rect.width  / 2;
+    const cy   = rect.top  + rect.height / 2;
+    const dx   = (e.clientX - cx) / rect.width;
+    const dy   = (e.clientY - cy) / rect.height;
+    card.style.transform = `translateY(-6px) rotateY(${dx*8}deg) rotateX(${-dy*6}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform .4s cubic-bezier(.16,1,.3,1), box-shadow .28s, border-color .28s';
+  });
+  card.addEventListener('mouseenter', () => {
+    card.style.transition = 'transform .08s linear, box-shadow .28s, border-color .28s';
+  });
+});
+</script>
+</body>
+</html>

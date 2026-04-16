@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Servizi · Valeria Milan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--forest-deep:#06100A;--forest-dark:#0A1B0B;--forest-mid:#122616;--forest-light:#1C3B20;--gold:#C4963A;--gold-light:#DDB86A;--cream:#F0E6D0;--sage:#78987C;--sage-light:#A6C2AA;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.55);--glass-bg:rgba(10,27,11,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
+    .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);transition:color var(--dur-fast);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--dur-mid) var(--ease-out)}
+    .nav-links a:hover,.nav-links a.active{color:var(--cream)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{padding:9px 22px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)!important;transition:background var(--dur-fast)!important}
+    .nav-cta:hover{background:var(--gold);color:var(--forest-deep)!important}
+    .nav-cta::after{display:none!important}
+    .page-hero{padding:140px clamp(1.5rem,6vw,5rem) 80px;background:var(--forest-dark);position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;bottom:-1px;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--forest-deep));pointer-events:none}
+    .page-hero-orb{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,150,58,.05) 0%,transparent 70%);pointer-events:none}
+    .page-hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .page-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;color:var(--cream)}
+    .page-hero-title em{font-style:italic;color:var(--gold)}
+    .page-hero-sub{margin-top:1.5rem;font-size:1.1rem;color:var(--text-muted);max-width:580px;line-height:1.8}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.12s!important}
+    .reveal-delay-2{transition-delay:.24s!important}
+    .reveal-delay-3{transition-delay:.36s!important}
+    .btn-primary{display:inline-block;padding:14px 32px;background:var(--gold);color:var(--forest-deep);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:background var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(196,150,58,.3)}
+    .btn-ghost{display:inline-block;padding:13px 32px;border:1px solid rgba(232,221,208,.25);color:var(--cream);font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;transition:border-color var(--dur-fast),background var(--dur-fast)}
+    .btn-ghost:hover{border-color:rgba(232,221,208,.6);background:rgba(232,221,208,.06)}
+    /* INTRO FEATURES */
+    #intro-servizi{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem);background:var(--forest-deep)}
+    .intro-grid{display:grid;grid-template-columns:1fr 2fr;gap:clamp(3rem,8vw,7rem);align-items:start}
+    @media(max-width:900px){.intro-grid{grid-template-columns:1fr}}
+    .intro-sticky{position:sticky;top:100px}
+    .section-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:300;line-height:1.15;color:var(--cream)}
+    .section-title em{font-style:italic;color:var(--gold)}
+    .section-body{font-size:1.05rem;color:var(--text-muted);line-height:1.85}
+    /* SERVICE BLOCKS */
+    .servizi-blocks{display:flex;flex-direction:column;gap:2rem}
+    .servizio-block{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-lg);overflow:hidden;backdrop-filter:blur(12px);transition:border-color var(--dur-mid),box-shadow var(--dur-mid)}
+    .servizio-block:hover{border-color:rgba(196,150,58,.3);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+    .servizio-block-header{padding:1.75rem 2rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer}
+    .sb-icon{width:52px;height:52px;background:rgba(196,150,58,.08);border:1px solid rgba(196,150,58,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background var(--dur-fast)}
+    .servizio-block:hover .sb-icon{background:rgba(196,150,58,.14)}
+    .sb-icon svg{width:24px;height:24px;stroke:var(--gold);stroke-width:1.5;fill:none}
+    .sb-title-group{flex:1}
+    .sb-cat{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:.25rem}
+    .sb-title{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--cream)}
+    .sb-arrow{width:36px;height:36px;border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform var(--dur-mid) var(--ease-out),background var(--dur-fast),border-color var(--dur-fast)}
+    .sb-arrow svg{width:16px;stroke:var(--text-muted);stroke-width:2;fill:none;transition:stroke var(--dur-fast)}
+    .servizio-block.open .sb-arrow{transform:rotate(180deg);background:rgba(196,150,58,.1);border-color:rgba(196,150,58,.3)}
+    .servizio-block.open .sb-arrow svg{stroke:var(--gold)}
+    .servizio-block-body{max-height:0;overflow:hidden;transition:max-height .5s var(--ease-out)}
+    .servizio-block.open .servizio-block-body{max-height:600px}
+    .sb-content{padding:0 2rem 2rem;border-top:1px solid var(--glass-border);padding-top:1.5rem}
+    .sb-desc{font-size:.95rem;color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem}
+    .sb-features{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.5rem}
+    @media(max-width:560px){.sb-features{grid-template-columns:1fr}}
+    .sb-feat{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text-muted)}
+    .sb-feat::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0}
+    .sb-info-row{display:flex;gap:.75rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid var(--glass-border)}
+    .info-chip{display:inline-flex;align-items:center;gap:.4rem;padding:5px 12px;border:1px solid var(--glass-border);border-radius:100px;font-size:.75rem;color:var(--sage-light)}
+    .info-chip svg{width:11px;stroke:currentColor;stroke-width:2;fill:none}
+    /* PROCESS */
+    #processo{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem);background:var(--forest-mid)}
+    .processo-header{text-align:center;max-width:680px;margin:0 auto 4rem}
+    .processo-steps{display:flex;gap:0;position:relative}
+    .processo-steps::before{content:'';position:absolute;top:28px;left:28px;right:28px;height:1px;background:var(--glass-border);z-index:0}
+    @media(max-width:768px){.processo-steps{flex-direction:column;gap:2rem}.processo-steps::before{display:none}}
+    .processo-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 1.5rem;position:relative;z-index:1}
+    .step-circle{width:56px;height:56px;border-radius:50%;background:var(--forest-dark);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;transition:background var(--dur-fast),border-color var(--dur-fast)}
+    .processo-step:hover .step-circle{background:rgba(196,150,58,.1);border-color:rgba(196,150,58,.4)}
+    .step-num{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold)}
+    .step-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--cream);margin-bottom:.5rem}
+    .step-desc{font-size:.82rem;color:var(--text-muted);line-height:1.7}
+    /* CTA */
+    #cta-servizi{background:var(--forest-dark);text-align:center;padding:clamp(80px,12vw,120px) 2rem}
+    .cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.15;color:var(--cream);margin-bottom:1.5rem}
+    .cta-title em{font-style:italic;color:var(--gold)}
+    footer{background:var(--forest-deep);border-top:1px solid var(--glass-border);padding:2rem clamp(1.5rem,6vw,5rem)}
+    .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-bottom p,.footer-legal a{font-size:.78rem;color:var(--text-muted)}
+    .footer-legal{display:flex;gap:1.5rem}
+    .footer-legal a:hover{color:var(--cream)}
+
+    /* 21st.dev: Spotlight + cursor */
+    @media(pointer:fine){body{cursor:none}a,button{cursor:none}}
+    .cursor-dot{width:7px;height:7px;background:#C4963A;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s;will-change:left,top}
+    .cursor-ring{width:36px;height:36px;border:1px solid rgba(196,150,58,.38);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .3s,opacity .3s;will-change:left,top}
+    .cursor-dot.expanded{width:5px;height:5px}.cursor-ring.expanded{width:52px;height:52px;border-color:rgba(196,150,58,.6)}
+    .cursor-dot.hidden,.cursor-ring.hidden{opacity:0}
+    /* Spotlight on service blocks */
+    .servizio-block{position:relative}
+    .sp-layer{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(240px circle at var(--spx,50%) var(--spy,50%),rgba(196,150,58,.07),transparent 70%);pointer-events:none;opacity:0;transition:opacity .35s}
+    .servizio-block:hover .sp-layer{opacity:1}
+    /* Process step spotlight */
+    .processo-step:hover .step-circle{background:rgba(196,150,58,.12);border-color:rgba(196,150,58,.45)}
+    /* Shiny btn */
+    .btn-primary{position:relative;overflow:hidden;isolation:isolate}
+    .btn-shine{position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-20deg);pointer-events:none}
+    .btn-primary:hover .btn-shine{animation:btnShine .55s cubic-bezier(.16,1,.3,1) forwards}
+    @keyframes btnShine{to{left:160%}}
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3" stroke="#C4963A" stroke-width="1.5" fill="none"/></svg>
+    </div>
+    Valeria Milan
+  </a>
+  <ul class="nav-links">
+    <li><a href="chi-sono.html">Chi Sono</a></li>
+    <li><a href="percorsi.html">Percorsi</a></li>
+    <li><a href="servizi.html" class="active">Servizi</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-orb"></div>
+  <span class="page-hero-eyebrow">Servizi</span>
+  <h1 class="page-hero-title">Strumenti per la tua<br><em>trasformazione</em></h1>
+  <p class="page-hero-sub">Ogni metodologia è stata scelta con cura per rispondere alla complessità dell'essere umano nella sua totalità.</p>
+</div>
+
+<!-- INTRO + ACCORDION SERVIZI -->
+<section id="intro-servizi">
+  <div class="intro-grid">
+    <div class="intro-sticky">
+      <span class="section-eyebrow reveal">Un approccio integrato</span>
+      <h2 class="section-title reveal reveal-delay-1">La giusta<br><em>chiave</em><br>per te</h2>
+      <p class="section-body reveal reveal-delay-2" style="margin-top:1.5rem">
+        Non esiste un unico strumento che funziona per tutti.
+        Nel primo contatto capiremo insieme quali metodologie risuonano maggiormente
+        con le tue necessità e il tuo momento di vita.
+      </p>
+      <div style="margin-top:2rem" class="reveal reveal-delay-3">
+        <a href="contatti.html" class="btn-primary">Prima consulenza gratuita</a>
+      </div>
+    </div>
+
+    <div class="servizi-blocks">
+      <!-- Counseling -->
+      <div class="servizio-block open reveal" id="counseling">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Fondamento</div>
+            <h3 class="sb-title">Counseling Olistico</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">Il counseling olistico è la base di tutto il mio lavoro. Non è terapia psicologica, né coaching: è un accompagnamento empatico, non giudicante, che ti aiuta a vedere con chiarezza le tue risorse interiori e a trovare le risposte che già possiedi — perché le risposte sono sempre dentro di te.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Ascolto attivo senza giudizio</span>
+              <span class="sb-feat">Chiarezza nelle scelte difficili</span>
+              <span class="sb-feat">Gestione transizioni di vita</span>
+              <span class="sb-feat">Relazioni e dinamiche familiari</span>
+              <span class="sb-feat">Blocchi e impasse esistenziali</span>
+              <span class="sb-feat">Riconoscimento delle proprie risorse</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Vicenza · Sandrigo · Online</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Disciplinata L. 4/2013</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mindfulness -->
+      <div class="servizio-block reveal reveal-delay-1" id="mindfulness">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v20M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Presenza</div>
+            <h3 class="sb-title">Mindfulness e Meditazione</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">La mindfulness non è semplicemente "rilassarsi". È un allenamento sistematico dell'attenzione che trasforma il modo in cui percepisci te stesso e il mondo. Attraverso pratiche formali e informali, impari a vivere con maggiore presenza, chiarezza e compassione verso te stesso.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Riduzione dello stress e dell'ansia</span>
+              <span class="sb-feat">Maggiore concentrazione e chiarezza</span>
+              <span class="sb-feat">Gestione delle emozioni difficili</span>
+              <span class="sb-feat">Miglioramento della qualità del sonno</span>
+              <span class="sb-feat">Sviluppo della compassione verso se stessi</span>
+              <span class="sb-feat">Pratiche integrabili nella vita quotidiana</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60-90 min</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Individuale e gruppo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Respiro -->
+      <div class="servizio-block reveal reveal-delay-2" id="respiro">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M8 12s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Corpo e Anima</div>
+            <h3 class="sb-title">Respiro Consapevole</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">Il respiro è il primo e più potente strumento di autoregolazione che possediamo. Tecniche di breathwork consapevole permettono di accedere a strati profondi dell'esperienza emotiva e corporea, sciogliendo blocchi che spesso le parole non riescono a raggiungere.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Scioglimento dei blocchi corporei</span>
+              <span class="sb-feat">Elaborazione di esperienze traumatiche</span>
+              <span class="sb-feat">Attivazione della risposta di guarigione</span>
+              <span class="sb-feat">Maggiore connessione corpo-mente</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 90 min</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> In presenza preferito</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biorisonanza -->
+      <div class="servizio-block reveal reveal-delay-1" id="biorisonanza">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Tecnologia Avanzata</div>
+            <h3 class="sb-title">Biorisonanza Olistica</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">La biorisonanza è uno strumento innovativo che permette di analizzare le frequenze energetiche del corpo e di lavorare per riequilibrarle. È un approccio complementare — non sostitutivo della medicina — che integra perfettamente il lavoro sul piano emotivo e spirituale.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Analisi delle frequenze energetiche</span>
+              <span class="sb-feat">Riequilibrio del campo bioenergetico</span>
+              <span class="sb-feat">Supporto ai percorsi emotivi</span>
+              <span class="sb-feat">Approccio complementare non invasivo</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Solo in presenza</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gruppo -->
+      <div class="servizio-block reveal reveal-delay-2" id="gruppo">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Comunità</div>
+            <h3 class="sb-title">Percorsi di Gruppo</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">La crescita personale in gruppo ha una potenza particolare: il rispecchiarsi negli altri, il sentirsi capiti, il sapere di non essere soli nel proprio percorso. I workshop e i percorsi di gruppo offrono questa magia, in un ambiente sicuro e guidato.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Workshop tematici su crescita personale</span>
+              <span class="sb-feat">Ritiri di mindfulness e meditazione</span>
+              <span class="sb-feat">Gruppi di auto-mutuo aiuto guidati</span>
+              <span class="sb-feat">Serate di approfondimento tematico</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> Calendario periodico</span>
+              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4-12 partecipanti</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matrix Drops -->
+      <div class="servizio-block reveal reveal-delay-3" id="matrix">
+        <div class="servizio-block-header" onclick="toggleBlock(this)">
+          <div class="sb-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div class="sb-title-group">
+            <div class="sb-cat">Vibrazioni Sottili</div>
+            <h3 class="sb-title">Matrix Drops · Quintessenze</h3>
+          </div>
+          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+        <div class="servizio-block-body">
+          <div class="sb-content">
+            <p class="sb-desc">Le quintessenze Matrix Drops sono informazioni vibratorie sviluppate per supportare i processi di trasformazione interiore. Lavorano su pattern emotivi profondi, spesso radicati nelle esperienze formative della vita, aiutando il loro scioglimento e integrazione.</p>
+            <div class="sb-features">
+              <span class="sb-feat">Analisi dei pattern emozionali</span>
+              <span class="sb-feat">Supporto al processo trasformativo</span>
+              <span class="sb-feat">Integrazione con altri percorsi</span>
+              <span class="sb-feat">Approccio energetico-vibrazionale</span>
+            </div>
+            <div class="sb-info-row">
+              <span class="info-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Su appuntamento</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section id="processo">
+  <div class="processo-header">
+    <span class="section-eyebrow reveal">Come funziona</span>
+    <h2 class="section-title reveal reveal-delay-1">Il tuo <em>percorso</em> con me</h2>
+  </div>
+  <div class="processo-steps">
+    <div class="processo-step reveal">
+      <div class="step-circle"><span class="step-num">1</span></div>
+      <h3 class="step-title">Chiamata conoscitiva</h3>
+      <p class="step-desc">20 minuti gratuiti per presentarci, capire le tue necessità e valutare insieme il percorso più adatto.</p>
+    </div>
+    <div class="processo-step reveal reveal-delay-1">
+      <div class="step-circle"><span class="step-num">2</span></div>
+      <h3 class="step-title">Prima sessione</h3>
+      <p class="step-desc">90 minuti di approfondimento in cui esploriamo il tuo momento presente e delineiamo il percorso.</p>
+    </div>
+    <div class="processo-step reveal reveal-delay-2">
+      <div class="step-circle"><span class="step-num">3</span></div>
+      <h3 class="step-title">Percorso personalizzato</h3>
+      <p class="step-desc">Minimo 5 sessioni, cadenza settimanale o quindicinale, in presenza o online secondo le tue esigenze.</p>
+    </div>
+    <div class="processo-step reveal reveal-delay-3">
+      <div class="step-circle"><span class="step-num">4</span></div>
+      <h3 class="step-title">Integrazione e autonomia</h3>
+      <p class="step-desc">Ogni sessione include strumenti pratici da portare nella vita quotidiana. Il cambiamento diventa tuo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-servizi">
+  <h2 class="cta-title reveal">Inizia da qui,<br><em>adesso</em></h2>
+  <p style="font-size:1.05rem;color:var(--text-muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.8" class="reveal reveal-delay-1">
+    La prima chiamata è gratuita e senza impegno. È il momento in cui capiamo se possiamo camminare insieme.
+  </p>
+  <div class="reveal reveal-delay-2">
+    <a href="contatti.html" class="btn-primary" style="font-size:.9rem;padding:16px 40px;">Prenota la chiamata gratuita</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2024 Valeria Milan · P.IVA 04265600249</p>
+    <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></div>
+  </div>
+</footer>
+
+<script>
+function toggleBlock(header) {
+  const block = header.closest('.servizio-block');
+  block.classList.toggle('open');
+}
+const obs = new IntersectionObserver(es => es.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 21st.dev: Custom cursor
+(function(){
+  const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+  if(!dot||!ring)return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';dot.classList.remove('hidden');ring.classList.remove('hidden');},{passive:true});
+  document.addEventListener('mouseleave',()=>{dot.classList.add('hidden');ring.classList.add('hidden');});
+  (function r(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(r);})();
+  document.querySelectorAll('a,button,.servizio-block').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{dot.classList.add('expanded');ring.classList.add('expanded');});
+    el.addEventListener('mouseleave',()=>{dot.classList.remove('expanded');ring.classList.remove('expanded');});
+  });
+})();
+
+// 21st.dev: Spotlight on service blocks (mouse-tracking glow)
+document.querySelectorAll('.servizio-block').forEach(block => {
+  const sp = document.createElement('div');
+  sp.className = 'sp-layer'; sp.setAttribute('aria-hidden','true');
+  block.appendChild(sp);
+  block.addEventListener('mousemove', e => {
+    const r = block.getBoundingClientRect();
+    block.style.setProperty('--spx', (e.clientX - r.left) + 'px');
+    block.style.setProperty('--spy', (e.clientY - r.top)  + 'px');
+  }, {passive:true});
+});
+
+// 21st.dev: Magnetic btn-primary
+document.querySelectorAll('.btn-primary').forEach(btn => {
+  btn.innerHTML = '<span class="btn-shine" aria-hidden="true"></span>' + btn.innerHTML;
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    btn.style.transform = `translate(${(e.clientX-(r.left+r.width/2))*.2}px,${(e.clientY-(r.top+r.height/2))*.2}px)`;
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog · Valeria Milan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--forest-deep:#06100A;--forest-dark:#0A1B0B;--forest-mid:#122616;--forest-light:#1C3B20;--gold:#C4963A;--gold-light:#DDB86A;--cream:#F0E6D0;--sage:#78987C;--sage-light:#A6C2AA;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.55);--glass-bg:rgba(10,27,11,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
+    .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);transition:color var(--dur-fast);position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width var(--dur-mid) var(--ease-out)}
+    .nav-links a:hover,.nav-links a.active{color:var(--cream)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{padding:9px 22px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)!important;transition:background var(--dur-fast)!important}
+    .nav-cta:hover{background:var(--gold);color:var(--forest-deep)!important}
+    .nav-cta::after{display:none!important}
+    .page-hero{padding:140px clamp(1.5rem,6vw,5rem) 80px;background:var(--forest-dark);position:relative;overflow:hidden}
+    .page-hero::before{content:'';position:absolute;bottom:-1px;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--forest-deep));pointer-events:none}
+    .page-hero-orb{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,150,58,.05) 0%,transparent 70%);pointer-events:none}
+    .page-hero-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
+    .page-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;color:var(--cream)}
+    .page-hero-title em{font-style:italic;color:var(--gold)}
+    .page-hero-sub{margin-top:1.5rem;font-size:1.1rem;color:var(--text-muted);max-width:580px;line-height:1.8}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.1s!important}
+    .reveal-delay-2{transition-delay:.2s!important}
+    .reveal-delay-3{transition-delay:.3s!important}
+    .reveal-delay-4{transition-delay:.4s!important}
+    .reveal-delay-5{transition-delay:.5s!important}
+    /* FILTER TABS */
+    #blog-main{padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem);background:var(--forest-deep)}
+    .blog-filters{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:3rem}
+    .filter-btn{padding:8px 20px;border:1px solid var(--glass-border);border-radius:100px;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;background:transparent;transition:all var(--dur-fast)}
+    .filter-btn:hover,.filter-btn.active{background:rgba(196,150,58,.1);border-color:rgba(196,150,58,.4);color:var(--gold)}
+    /* FEATURED POST */
+    .blog-featured{margin-bottom:3rem}
+    .featured-card{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--glass-border);background:var(--glass-bg);backdrop-filter:blur(12px);cursor:pointer;transition:transform var(--dur-mid) var(--ease-out),box-shadow var(--dur-mid)}
+    .featured-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    @media(max-width:768px){.featured-card{grid-template-columns:1fr}}
+    .featured-thumb{background:linear-gradient(135deg,var(--forest-light) 0%,var(--forest-mid) 100%);min-height:320px;display:flex;align-items:center;justify-content:center;position:relative;padding:3rem}
+    .featured-thumb-text{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-style:italic;color:rgba(240,230,208,.25);text-align:center;line-height:1.4}
+    .featured-tag{position:absolute;top:1.5rem;left:1.5rem;padding:5px 14px;background:rgba(196,150,58,.15);border:1px solid rgba(196,150,58,.3);border-radius:100px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .featured-body{padding:2.5rem}
+    .feat-date{font-size:.75rem;color:var(--text-muted);letter-spacing:.08em;margin-bottom:.75rem}
+    .feat-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:var(--cream);line-height:1.25;margin-bottom:1rem}
+    .feat-excerpt{font-size:.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:2rem}
+    .feat-read{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+    .feat-read svg{width:14px;stroke:currentColor;stroke-width:2;fill:none;transition:transform var(--dur-fast)}
+    .featured-card:hover .feat-read svg{transform:translateX(4px)}
+    /* BLOG GRID */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:1024px){.blog-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.blog-grid{grid-template-columns:1fr}}
+    .blog-card{border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--glass-border);background:var(--forest-dark);cursor:pointer;transition:transform var(--dur-mid) var(--ease-out),box-shadow var(--dur-mid)}
+    .blog-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.35)}
+    .blog-thumb{aspect-ratio:16/9;background:linear-gradient(135deg,var(--forest-light) 0%,var(--forest-mid) 100%);display:flex;align-items:center;justify-content:center;position:relative;padding:1.5rem}
+    .blog-thumb-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(240,230,208,.2);text-align:center;line-height:1.4}
+    .blog-date-chip{position:absolute;top:.75rem;left:.75rem;padding:3px 10px;background:rgba(6,16,10,.7);backdrop-filter:blur(8px);border-radius:100px;font-size:.68rem;letter-spacing:.1em;color:var(--gold)}
+    .blog-body{padding:1.5rem}
+    .blog-cat{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:.6rem}
+    .blog-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--cream);line-height:1.35;margin-bottom:.5rem}
+    .blog-excerpt{font-size:.85rem;color:var(--text-muted);line-height:1.7}
+    .blog-footer{padding:1rem 1.5rem;border-top:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center}
+    .blog-read{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+    .blog-read svg{width:12px;stroke:currentColor;stroke-width:2;fill:none}
+    .blog-time{font-size:.72rem;color:var(--text-muted)}
+    /* NEWSLETTER */
+    #newsletter{background:var(--forest-mid);padding:clamp(80px,12vw,120px) clamp(1.5rem,6vw,5rem)}
+    .nl-inner{max-width:680px;margin:0 auto;text-align:center}
+    .nl-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--cream);margin-bottom:1rem;line-height:1.2}
+    .nl-title em{font-style:italic;color:var(--gold)}
+    .nl-sub{font-size:1rem;color:var(--text-muted);line-height:1.8;margin-bottom:2.5rem}
+    .nl-form{display:flex;gap:1rem;max-width:480px;margin:0 auto;flex-wrap:wrap}
+    .nl-input{flex:1;min-width:200px;padding:13px 20px;background:rgba(6,16,10,.6);border:1px solid var(--glass-border);border-radius:100px;color:var(--text-light);font-size:.9rem;outline:none;transition:border-color var(--dur-fast)}
+    .nl-input::placeholder{color:var(--text-muted)}
+    .nl-input:focus{border-color:rgba(196,150,58,.4)}
+    .nl-btn{padding:13px 28px;background:var(--gold);color:var(--forest-deep);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:100px;cursor:pointer;transition:background var(--dur-fast),transform var(--dur-fast)}
+    .nl-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
+    .nl-note{font-size:.75rem;color:var(--text-muted);margin-top:1rem}
+    footer{background:var(--forest-deep);border-top:1px solid var(--glass-border);padding:2rem clamp(1.5rem,6vw,5rem)}
+    .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-bottom p,.footer-legal a{font-size:.78rem;color:var(--text-muted)}
+    .footer-legal{display:flex;gap:1.5rem}
+    .footer-legal a:hover{color:var(--cream)}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3" stroke="#C4963A" stroke-width="1.5" fill="none"/></svg>
+    </div>
+    Valeria Milan
+  </a>
+  <ul class="nav-links">
+    <li><a href="chi-sono.html">Chi Sono</a></li>
+    <li><a href="percorsi.html">Percorsi</a></li>
+    <li><a href="servizi.html">Servizi</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-orb"></div>
+  <span class="page-hero-eyebrow">Blog</span>
+  <h1 class="page-hero-title">Riflessioni per<br><em>il viaggio</em></h1>
+  <p class="page-hero-sub">Articoli sulla crescita personale, la spiritualità e il benessere olistico — per chi vuole andare in profondità.</p>
+</div>
+
+<section id="blog-main">
+  <!-- FILTERS -->
+  <div class="blog-filters reveal">
+    <button class="filter-btn active" onclick="filterBlog('tutti',this)">Tutti</button>
+    <button class="filter-btn" onclick="filterBlog('crescita',this)">Crescita Personale</button>
+    <button class="filter-btn" onclick="filterBlog('spiritualita',this)">Spiritualità</button>
+    <button class="filter-btn" onclick="filterBlog('mindfulness',this)">Mindfulness</button>
+    <button class="filter-btn" onclick="filterBlog('relazioni',this)">Relazioni</button>
+    <button class="filter-btn" onclick="filterBlog('lavoro',this)">Lavoro e Scopo</button>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="blog-featured reveal">
+    <a href="#" class="featured-card">
+      <div class="featured-thumb">
+        <div class="featured-tag">In Evidenza</div>
+        <div class="featured-thumb-text">Vivi per Realizzare<br>o per Lavorare?</div>
+      </div>
+      <div class="featured-body">
+        <div class="feat-date">20 Aprile 2023</div>
+        <h2 class="feat-title">Vivi per Realizzare o per Lavorare?</h2>
+        <p class="feat-excerpt">La maggior parte delle persone adulte è insoddisfatta di quello che fa nella vita. Non perché il lavoro sia sbagliato — ma perché ha dimenticato per cosa è venuta al mondo. Un'esplorazione profonda della differenza tra sopravvivere e fiorire.</p>
+        <span class="feat-read">Leggi l'articolo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </a>
+  </div>
+
+  <!-- GRID -->
+  <div class="blog-grid">
+    <div class="blog-card reveal" data-cat="spiritualita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Gen 2023</div>
+        <div class="blog-thumb-text">Come Liberarsi dai<br>Parassiti Spirituali</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Spiritualità</div>
+        <h3 class="blog-title">Come Liberarsi dai Parassiti Spirituali</h3>
+        <p class="blog-excerpt">Hai presente quelle situazioni in cui dopo aver trascorso del tempo con qualcuno il tuo livello di energia è molto basso?</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">7 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-1" data-cat="crescita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Nov 2022</div>
+        <div class="blog-thumb-text">Come Essere<br>Se Stessi?</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Crescita Personale</div>
+        <h3 class="blog-title">Come Essere Se Stessi?</h3>
+        <p class="blog-excerpt">Uno dei percorsi più coraggiosi che un essere umano possa intraprendere è quello verso la propria verità più profonda.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">6 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-2" data-cat="relazioni">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Ago 2022</div>
+        <div class="blog-thumb-text">La Vita è una Giungla<br>o un'Isola Felice?</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Relazioni</div>
+        <h3 class="blog-title">La Vita è una Giungla o un'Isola Felice?</h3>
+        <p class="blog-excerpt">Il modo in cui vediamo le relazioni interpersonali dice molto di come vediamo noi stessi e la vita intera.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">5 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-1" data-cat="crescita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Mag 2022</div>
+        <div class="blog-thumb-text">Sono<br>Super Sensibile</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Crescita Personale</div>
+        <h3 class="blog-title">Sono Super Sensibile</h3>
+        <p class="blog-excerpt">La sensibilità elevata non è una debolezza. È un dono che, se compreso e coltivato, diventa una fonte di forza straordinaria.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">8 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-2" data-cat="lavoro">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Mar 2022</div>
+        <div class="blog-thumb-text">Cosa Fare se il Lavoro<br>Non Mi Soddisfa</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Lavoro e Scopo</div>
+        <h3 class="blog-title">Cosa Fare se il Mio Lavoro Non Mi Soddisfa Più</h3>
+        <p class="blog-excerpt">Quando il lavoro perde significato, non è solo un problema professionale — è un segnale dell'anima che chiede ascolto.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">6 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-3" data-cat="crescita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Dic 2021</div>
+        <div class="blog-thumb-text">Come Cambiare<br>Se Stessi</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Crescita Personale</div>
+        <h3 class="blog-title">Come Cambiare Se Stessi</h3>
+        <p class="blog-excerpt">Il cambiamento vero non viene dall'esterno. Viene da dentro, quando decidi di smettere di lottare con chi sei e inizi a fiorire da lì.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">5 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal" data-cat="spiritualita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Nov 2021</div>
+        <div class="blog-thumb-text">Scopri e Guida<br>il Tuo Destino</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Spiritualità</div>
+        <h3 class="blog-title">Scopri e Guida il Tuo Destino</h3>
+        <p class="blog-excerpt">Il destino non è qualcosa che ti capita. È qualcosa che costruisci ogni giorno attraverso le tue scelte e la tua consapevolezza.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">7 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-1" data-cat="crescita">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Ott 2021</div>
+        <div class="blog-thumb-text">Uscire dalla Lamentela<br>per Vivere Meglio</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Crescita Personale</div>
+        <h3 class="blog-title">Uscire dalla Lamentela per Vivere Meglio</h3>
+        <p class="blog-excerpt">La lamentela è una trappola confortante. Ti tiene fermo in un luogo familiare, ma ti impedisce di muoverti verso chi puoi diventare.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">5 min</span>
+      </div>
+    </div>
+
+    <div class="blog-card reveal reveal-delay-2" data-cat="mindfulness">
+      <div class="blog-thumb">
+        <div class="blog-date-chip">Ott 2021</div>
+        <div class="blog-thumb-text">La Paura<br>della Paura</div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-cat">Mindfulness</div>
+        <h3 class="blog-title">La Paura della Paura</h3>
+        <p class="blog-excerpt">Spesso non è la paura stessa che ci blocca — è la paura di sentire la paura. Impara a stare con le tue emozioni difficili senza esserne sopraffatto.</p>
+      </div>
+      <div class="blog-footer">
+        <span class="blog-read">Leggi <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-time">9 min</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="nl-inner">
+    <h2 class="nl-title reveal">Riflessioni nella tua<br><em>casella di posta</em></h2>
+    <p class="nl-sub reveal reveal-delay-1">Unisciti a chi riceve ogni mese spunti di riflessione, pratiche di mindfulness e aggiornamenti sui prossimi percorsi e workshop.</p>
+    <form class="nl-form reveal reveal-delay-2" onsubmit="return false">
+      <input type="email" class="nl-input" placeholder="La tua email" aria-label="Email"/>
+      <button class="nl-btn" type="submit">Iscriviti</button>
+    </form>
+    <p class="nl-note reveal reveal-delay-3">Niente spam. Solo contenuti di valore. Disiscriviti in qualsiasi momento.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">
+    <p>© 2024 Valeria Milan · P.IVA 04265600249</p>
+    <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(es => es.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+function filterBlog(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.blog-card').forEach(card => {
+    if (cat === 'tutti' || card.dataset.cat === cat) {
+      card.style.display = '';
+      setTimeout(() => card.style.opacity = '1', 50);
+    } else {
+      card.style.opacity = '0';
+      setTimeout(() => card.style.display = 'none', 280);
+    }
+  });
+}
+</script>
+</body>
+</html>
