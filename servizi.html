@@ -100,6 +100,17 @@
     .footer-legal{display:flex;gap:1.5rem}
     .footer-legal a:hover{color:var(--cream)}
 
+    /* Hamburger nav */
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
+    @media(max-width:768px){.nav-links{display:none!important}.nav-hamburger{display:flex}}
+    .nav-mobile-open .nav-links{display:flex!important;flex-direction:column;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(6,16,10,.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;gap:2rem;z-index:999}
+    .nav-mobile-open .nav-links a{font-size:1.2rem}
+    /* Mobile responsiveness */
+    @media(max-width:900px){.intro-sticky{position:static}}
+    @media(max-width:480px){.page-hero{padding:100px 1.5rem 60px}}
+    @media(max-width:480px){section{padding:60px 1.25rem}}
+    @media(max-width:480px){.sb-info-row{flex-direction:column}}
     /* 21st.dev: Spotlight + cursor */
     @media(pointer:fine){body{cursor:none}a,button{cursor:none}}
     .cursor-dot{width:7px;height:7px;background:#C4963A;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s;will-change:left,top}
@@ -137,6 +148,9 @@
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="page-hero">
@@ -284,35 +298,6 @@
         </div>
       </div>
 
-      <!-- Gruppo -->
-      <div class="servizio-block reveal reveal-delay-2" id="gruppo">
-        <div class="servizio-block-header" onclick="toggleBlock(this)">
-          <div class="sb-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <div class="sb-title-group">
-            <div class="sb-cat">Comunità</div>
-            <h3 class="sb-title">Percorsi di Gruppo</h3>
-          </div>
-          <div class="sb-arrow"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
-        </div>
-        <div class="servizio-block-body">
-          <div class="sb-content">
-            <p class="sb-desc">La crescita personale in gruppo ha una potenza particolare: il rispecchiarsi negli altri, il sentirsi capiti, il sapere di non essere soli nel proprio percorso. I workshop e i percorsi di gruppo offrono questa magia, in un ambiente sicuro e guidato.</p>
-            <div class="sb-features">
-              <span class="sb-feat">Workshop tematici su crescita personale</span>
-              <span class="sb-feat">Ritiri di mindfulness e meditazione</span>
-              <span class="sb-feat">Gruppi di auto-mutuo aiuto guidati</span>
-              <span class="sb-feat">Serate di approfondimento tematico</span>
-            </div>
-            <div class="sb-info-row">
-              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg> Calendario periodico</span>
-              <span class="info-chip"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4-12 partecipanti</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Matrix Drops -->
       <div class="servizio-block reveal reveal-delay-3" id="matrix">
         <div class="servizio-block-header" onclick="toggleBlock(this)">
@@ -399,6 +384,10 @@ function toggleBlock(header) {
 }
 const obs = new IntersectionObserver(es => es.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Hamburger menu
+document.getElementById('hamburger')?.addEventListener('click',()=>{document.querySelector('nav').classList.toggle('nav-mobile-open')});
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.querySelector('nav').classList.remove('nav-mobile-open')));
 
 // 21st.dev: Custom cursor
 (function(){

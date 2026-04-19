@@ -96,6 +96,18 @@
     .footer-legal{display:flex;gap:1.5rem}
     .footer-legal a:hover{color:var(--cream)}
 
+    /* Hamburger nav */
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
+    @media(max-width:768px){.nav-links{display:none!important}.nav-hamburger{display:flex}}
+    .nav-mobile-open .nav-links{display:flex!important;flex-direction:column;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(6,16,10,.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;gap:2rem;z-index:999}
+    .nav-mobile-open .nav-links a{font-size:1.2rem}
+    /* Mobile responsiveness */
+    @media(max-width:480px){.page-hero{padding:100px 1.5rem 60px}}
+    @media(max-width:480px){section{padding:60px 1.25rem}}
+    @media(max-width:480px){.percorso-detail{padding:60px 1.25rem}}
+    @media(max-width:480px){.overview-grid{gap:1.2rem}}
+    @media(max-width:480px){.detail-badge{top:-10px;right:-10px;width:70px;height:70px}}
     /* 21st.dev: Spotlight + cursor */
     @media(pointer:fine){body{cursor:none}a,button{cursor:none}}
     .cursor-dot{width:7px;height:7px;background:#C4963A;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s;will-change:left,top}
@@ -128,11 +140,14 @@
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="page-hero">
   <div class="page-hero-orb"></div>
-  <span class="page-hero-eyebrow">Percorsi Individuali</span>
+  <span class="page-hero-eyebrow">Cosa stai cercando</span>
   <h1 class="page-hero-title">Quattro vie verso<br><em>te stesso</em></h1>
   <p class="page-hero-sub">Ogni percorso è un invito a scendere in profondità — non per cambiare chi sei, ma per ricordarti di te.</p>
 </div>
@@ -141,7 +156,6 @@
 <section id="overview">
   <div class="overview-header">
     <span class="section-eyebrow reveal">Scegli il tuo percorso</span>
-    <h2 class="section-title reveal reveal-delay-1">Dove ti senti<br><em>rispecchiato?</em></h2>
   </div>
   <div class="overview-grid">
     <a href="#no" class="overview-card reveal">
@@ -208,11 +222,11 @@
       </div>
       <div class="detail-badge">
         <span class="detail-badge-num">01</span>
-        <span class="detail-badge-sub">percorso</span>
+        <span class="detail-badge-sub">cammino</span>
       </div>
     </div>
     <div class="reveal reveal-delay-1">
-      <span class="detail-eyebrow">Percorso 01</span>
+      <span class="detail-eyebrow">Cammino 01</span>
       <h2 class="detail-title">Imparare a<br>dire <em>NO</em></h2>
       <p class="detail-body">Ti senti oppresso/a dalle richieste di partner, figli, capi, colleghi o genitori? Dici sempre sì anche quando vorresti dire no? Questo percorso è per te.</p>
       <p class="detail-body">Insieme esploreremo le radici della tua difficoltà a stabilire confini, libererai le paure che limitano la tua espressione personale e imparerai a bilanciare il tempo dedicato agli altri con quello per te.</p>
@@ -236,7 +250,7 @@
 <section id="tempo" class="percorso-detail">
   <div class="detail-grid">
     <div class="reveal reveal-delay-1" style="order:1">
-      <span class="detail-eyebrow">Percorso 02</span>
+      <span class="detail-eyebrow">Cammino 02</span>
       <h2 class="detail-title">Ferma il<br><em>Tempo</em></h2>
       <p class="detail-body">Vivi sempre di corsa? Hai la sensazione che il tempo ti sfugga di mano? La mindfulness non è una tecnica di rilassamento — è un modo di abitare la vita.</p>
       <p class="detail-body">Attraverso pratiche di meditazione, respirazione consapevole e presenza corporea, imparerai a rallentare il ritmo e a trovare la pace in mezzo al caos quotidiano.</p>
@@ -259,7 +273,7 @@
       </div>
       <div class="detail-badge">
         <span class="detail-badge-num">02</span>
-        <span class="detail-badge-sub">percorso</span>
+        <span class="detail-badge-sub">cammino</span>
       </div>
     </div>
   </div>
@@ -274,11 +288,11 @@
       </div>
       <div class="detail-badge">
         <span class="detail-badge-num">03</span>
-        <span class="detail-badge-sub">percorso</span>
+        <span class="detail-badge-sub">cammino</span>
       </div>
     </div>
     <div class="reveal reveal-delay-1">
-      <span class="detail-eyebrow">Percorso 03</span>
+      <span class="detail-eyebrow">Cammino 03</span>
       <h2 class="detail-title">La Strada della<br><em>Felicità</em></h2>
       <p class="detail-body">Non si tratta di inseguire la felicità come un traguardo esterno. Si tratta di ricordare che la gioia è la tua natura originale — e che si trova attraverso la riconnessione con la tua essenza.</p>
       <p class="detail-body">In questo percorso esploreremo cosa ti fa sentire davvero vivo/a, rimuoveremo i blocchi che ti impediscono di accedere alla gioia e coltiveremo una relazione amorevole con te stesso/a.</p>
@@ -302,7 +316,7 @@
 <section id="cambiamento" class="percorso-detail">
   <div class="detail-grid">
     <div class="reveal reveal-delay-1" style="order:1">
-      <span class="detail-eyebrow">Percorso 04</span>
+      <span class="detail-eyebrow">Cammino 04</span>
       <h2 class="detail-title">Il Vento del<br><em>Cambiamento</em></h2>
       <p class="detail-body">I momenti di transizione — una perdita, una scelta radicale, una fine o un nuovo inizio — possono essere i più trasformativi della vita, se affrontati con gli strumenti giusti.</p>
       <p class="detail-body">Questo percorso ti accompagna attraverso il cambiamento, aiutandoti a trovare il tuo ritmo in un momento di instabilità e a costruire la tua resilienza interiore.</p>
@@ -325,7 +339,7 @@
       </div>
       <div class="detail-badge">
         <span class="detail-badge-num">04</span>
-        <span class="detail-badge-sub">percorso</span>
+        <span class="detail-badge-sub">cammino</span>
       </div>
     </div>
   </div>
@@ -378,6 +392,10 @@ document.querySelectorAll('.overview-card').forEach(card=>{
     card.style.setProperty('--spy',(e.clientY-r.top)+'px');
   },{passive:true});
 });
+
+// Hamburger menu
+document.getElementById('hamburger')?.addEventListener('click',()=>{document.querySelector('nav').classList.toggle('nav-mobile-open')});
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.querySelector('nav').classList.remove('nav-mobile-open')));
 
 // 21st.dev: Magnetic + shiny btn-primary
 document.querySelectorAll('.btn-primary').forEach(btn=>{

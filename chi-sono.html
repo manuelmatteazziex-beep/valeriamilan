@@ -6,9 +6,9 @@
   <title>Chi Sono · Valeria Milan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" /></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" /></noscript>
   <style>
     :root{--forest-deep:#06100A;--forest-dark:#0A1B0B;--forest-mid:#122616;--forest-light:#1C3B20;--gold:#C4963A;--gold-light:#DDB86A;--gold-pale:#F0D8A8;--cream:#F0E6D0;--cream-light:#FAF4EB;--sage:#78987C;--sage-light:#A6C2AA;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.55);--glass-bg:rgba(10,27,11,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -95,6 +95,39 @@
     .footer-legal{display:flex;gap:1.5rem}
     .footer-legal a{font-size:.78rem;color:var(--text-muted);transition:color var(--dur-fast)}
     .footer-legal a:hover{color:var(--cream)}
+    /* HERO NAME CALLIGRAPHIC */
+    .hero-name-script{font-family:'Pinyon Script',cursive;font-size:clamp(4rem,10vw,8rem);font-weight:400;line-height:1.1;color:var(--cream);display:block}
+    .hero-name-script em{font-style:normal;color:var(--gold)}
+    /* HERO SUBTITLE OFFER */
+    .hero-subtitle-offer{font-size:0.82rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-top:1rem;font-family:'Inter',sans-serif}
+    /* ACCORDION */
+    .accordion-item{border-bottom:1px solid var(--glass-border);padding:1.2rem 0}
+    .accordion-item:first-child{border-top:1px solid var(--glass-border)}
+    .accordion-trigger{cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);background:none;border:none;width:100%;text-align:left;padding:0}
+    .accordion-trigger:hover{color:var(--gold)}
+    .accordion-arrow{flex-shrink:0;margin-left:1rem;transition:transform 0.4s var(--ease-out)}
+    .accordion-item.open .accordion-arrow{transform:rotate(180deg)}
+    .accordion-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+    .accordion-item.open .accordion-body{max-height:600px}
+    .accordion-body-inner{padding:1rem 0 0.5rem}
+    .accordion-body-inner p{font-size:1.05rem;color:var(--text-muted);line-height:1.9;margin-bottom:1.2rem}
+    .accordion-body-inner p:last-child{margin-bottom:0}
+    .accordion-body-inner p strong{color:var(--cream);font-weight:500}
+    /* HAMBURGER */
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
+    @media(max-width:768px){.nav-links{display:none}.nav-hamburger{display:flex}}
+    .nav-mobile-open .nav-links{display:flex;flex-direction:column;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(6,16,10,.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;gap:2rem;z-index:999}
+    .nav-mobile-open .nav-links a{font-size:1.2rem}
+    /* MOBILE HERO */
+    @media(max-width:480px){.page-hero{padding:100px 1.5rem 60px}}
+    /* MOBILE STORIA IMAGE */
+    @media(max-width:900px){.storia-frame{max-height:300px;aspect-ratio:unset}}
+    /* MOBILE CTA BUTTONS */
+    @media(max-width:480px){
+      .btn-primary,.btn-ghost{padding:12px 24px;font-size:.78rem;width:100%;text-align:center;display:block}
+      div[style*="display:flex"][style*="gap:1rem"]{flex-direction:column}
+    }
   </style>
 </head>
 <body>
@@ -113,14 +146,18 @@
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contatti.html" class="nav-cta">Contattami</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="page-hero">
   <div class="page-hero-orb"></div>
   <span class="page-hero-eyebrow">Chi Sono</span>
-  <h1 class="page-hero-title">
+  <h1 class="hero-name-script">
     Valeria<br><em>Milan</em>
   </h1>
+  <p class="hero-subtitle-offer">Percorsi Evolutivi Integrati</p>
 </div>
 
 <!-- STORIA -->
@@ -134,22 +171,69 @@
     <div class="storia-content">
       <span class="section-eyebrow reveal">La mia storia</span>
       <h2 class="section-title reveal reveal-delay-1">Dalla ricerca personale<br>alla <em>guida degli altri</em></h2>
-      <div style="margin-top:2rem">
-        <p class="reveal reveal-delay-2">
-          Ho sempre sentito il bisogno di andare in profondità. <strong>Non mi bastava la superficie delle cose</strong> — volevo capire perché le persone soffrono, perché rimangono bloccate, perché spesso il dolore più grande non è quello che viene dall'esterno ma quello che portiamo dentro di noi senza saperlo nominare.
-        </p>
-        <p class="reveal reveal-delay-2">
-          Il mio percorso verso il counseling olistico è nato da una <strong>ricerca personale autentica</strong>, dalla voglia di trovare strumenti che andassero oltre la psicologia tradizionale — strumenti che tenessero conto della persona nella sua totalità: corpo, mente, emozioni e spirito.
-        </p>
-        <blockquote class="storia-pullquote reveal reveal-delay-2">
-          "Ho imparato che non esiste un unico percorso verso se stessi. Esiste <em>il tuo</em> percorso, e il mio compito è aiutarti a trovarlo."
-        </blockquote>
-        <p class="reveal reveal-delay-2">
-          Oggi lavoro con persone che si trovano a un bivio esistenziale — che si sentono perse, sopraffatte, o che semplicemente sentono che c'è qualcosa di più nella vita che non riescono ancora a raggiungere. Il mio approccio integra diverse metodologie: dalla <strong>Scienza dello Spirito</strong> alla biorisonanza, dalla mindfulness al respiro consapevole, fino alle quintessenze Matrix Drops.
-        </p>
-        <p class="reveal reveal-delay-2">
-          Sono professionista disciplinata ai sensi della <strong>legge 4/2013</strong>, con oltre 15 anni di formazione e pratica. Opero in presenza a Vicenza, Sandrigo e Bressanvido, e online via Zoom o Skype.
-        </p>
+      <div style="margin-top:2rem" class="reveal reveal-delay-2">
+
+        <!-- ACCORDION -->
+        <div class="accordion-item open">
+          <button class="accordion-trigger">
+            Mi presento
+            <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6.5L9 11.5L14 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Sono Valeria Milan, counselor olistica e facilitatrice di crescita personale. Lavoro con persone che si trovano agli imbuti esistenziali della vita — quei momenti in cui sembra non esserci via d'uscita.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger">
+            La mia storia
+            <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6.5L9 11.5L14 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Ho sempre sentito il bisogno di andare in profondità. <strong>Non mi bastava la superficie delle cose</strong> — volevo capire perché le persone soffrono, perché rimangono bloccate, perché spesso il dolore più grande non è quello che viene dall'esterno ma quello che portiamo dentro di noi senza saperlo nominare.</p>
+              <p>Il mio percorso verso il counseling olistico è nato da una <strong>ricerca personale autentica</strong>, dalla voglia di trovare strumenti che andassero oltre la psicologia tradizionale.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger">
+            Cosa ho imparato
+            <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6.5L9 11.5L14 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <blockquote class="storia-pullquote" style="margin:0 0 1.2rem">
+                "Ho imparato che non esiste un unico percorso verso se stessi. Esiste <em>il tuo</em> percorso, e il mio compito è aiutarti a trovarlo."
+              </blockquote>
+              <p>Oggi lavoro con persone che si trovano a un bivio esistenziale — che si sentono perse, sopraffatte, o che semplicemente sentono che c'è qualcosa di più nella vita che non riescono ancora a raggiungere.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger">
+            Formazione e metodi
+            <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6.5L9 11.5L14 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              <p>Il mio approccio integra diverse metodologie: dalla <strong>Scienza dello Spirito</strong> alla biorisonanza, dalla mindfulness al respiro consapevole, fino alle quintessenze Matrix Drops. Sono professionista disciplinata ai sensi della <strong>legge 4/2013</strong>, con oltre 15 anni di formazione e pratica. Opero in presenza a Vicenza, Sandrigo e Bressanvido, e online via Zoom o Skype.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap" class="reveal reveal-delay-3">
         <a href="contatti.html" class="btn-primary">Conosciamoci</a>
@@ -162,7 +246,7 @@
 <!-- METODOLOGIA -->
 <section id="metodologia">
   <div class="metodo-intro">
-    <span class="section-eyebrow reveal">Metodologia</span>
+    <span class="section-eyebrow reveal">Come lavoro</span>
     <h2 class="section-title reveal reveal-delay-1">Un approccio <em>integrato</em></h2>
     <p style="font-size:1.05rem;color:var(--text-muted);line-height:1.8;margin-top:1.25rem" class="reveal reveal-delay-2">
       Ogni strumento che utilizzo è stato scelto perché risponde a una specifica necessità umana.
@@ -207,7 +291,7 @@
 <section id="valori">
   <span class="section-eyebrow reveal">I miei valori</span>
   <h2 class="section-title reveal reveal-delay-1" style="margin-bottom:3rem">
-    Ciò in cui <em>credo</em>
+    Le <em>fondamenta</em>
   </h2>
   <div class="valori-grid">
     <div class="valore-item reveal">
@@ -284,6 +368,26 @@ const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');revealObserver.unobserve(e.target);} });
 }, {threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// HAMBURGER MENU
+document.getElementById('hamburger')?.addEventListener('click', () => {
+  document.querySelector('nav').classList.toggle('nav-mobile-open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('nav').classList.remove('nav-mobile-open'));
+});
+
+// ACCORDION
+document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const item = trigger.closest('.accordion-item');
+    const isOpen = item.classList.contains('open');
+    // Chiudi tutti
+    document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+    // Apri quello cliccato se era chiuso
+    if (!isOpen) item.classList.add('open');
+  });
+});
 </script>
 </body>
 </html>
