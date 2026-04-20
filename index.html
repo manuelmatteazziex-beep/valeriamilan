@@ -169,7 +169,6 @@
     .hero-sticky {
       position: sticky; top: 0;
       height: 100vh;
-      height: -webkit-fill-available;
       width: 100%;
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
@@ -177,8 +176,6 @@
     #heroCanvas {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
-      transform: translateZ(0);
-      -webkit-transform: translateZ(0);
     }
     .hero-bg-gradient {
       position: absolute; inset: 0;
@@ -998,6 +995,22 @@
       a, button { cursor: pointer !important; }
       .cursor-dot, .cursor-ring { display: none !important; }
     }
+
+    /* CTA button mobile — prevent overflow clip */
+    @media (max-width: 600px) {
+      #cta-finale .btn-primary {
+        display: block;
+        padding: 16px 24px !important;
+        font-size: .82rem !important;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .cta-contact {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1522,7 +1535,7 @@
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], animFrame;
 
-  const PARTICLE_COUNT = window.innerWidth < 768 ? 120 : 280;
+  const PARTICLE_COUNT = 280;
   let progress = 0; // 0 = chaos, 1 = harmony
 
   let resizeTimer;
