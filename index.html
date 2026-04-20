@@ -168,13 +168,17 @@
     }
     .hero-sticky {
       position: sticky; top: 0;
-      height: 100vh; width: 100%;
+      height: 100vh;
+      height: -webkit-fill-available;
+      width: 100%;
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
     }
     #heroCanvas {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
     .hero-bg-gradient {
       position: absolute; inset: 0;
@@ -916,7 +920,9 @@
         -webkit-backdrop-filter: blur(24px);
         border-bottom: 1px solid rgba(196,150,58,.2);
         box-shadow: 0 8px 32px rgba(0,0,0,.5);
-        z-index: 999;
+        z-index: 1001;
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
       }
       .nav-links.open {
         display: flex;
@@ -984,6 +990,13 @@
     ───────────────────────────────────────────────────── */
     @media (max-width: 480px) {
       section { padding: 60px 1.25rem; }
+    }
+
+    /* Touch device: disable custom cursor */
+    @media (hover: none) and (pointer: coarse) {
+      body { cursor: auto !important; }
+      a, button { cursor: pointer !important; }
+      .cursor-dot, .cursor-ring { display: none !important; }
     }
   </style>
 </head>
@@ -1509,13 +1522,18 @@
   const ctx = canvas.getContext('2d');
   let W, H, particles = [], animFrame;
 
-  const PARTICLE_COUNT = 280;
+  const PARTICLE_COUNT = window.innerWidth < 768 ? 120 : 280;
   let progress = 0; // 0 = chaos, 1 = harmony
 
+  let resizeTimer;
   function resize() {
     W = canvas.width  = window.innerWidth;
     H = canvas.height = window.innerHeight;
     initParticles();
+  }
+  function resizeDebounced() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 150);
   }
 
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -1787,7 +1805,7 @@
   }
 
   window.addEventListener('scroll', onScroll, {passive: true});
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', resizeDebounced);
   resize();
   requestAnimationFrame(draw);
   smoothProgress();
@@ -1833,9 +1851,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ═══════════════════════════════════════════════════════
-//  21ST.DEV ENHANCEMENT: CUSTOM LUXURY CURSOR
+//  21ST.DEV ENHANCEMENT: CUSTOM LUXURY CURSOR — desktop only
 // ═══════════════════════════════════════════════════════
 (function() {
+  if (window.matchMedia('(hover:none)').matches) return;
   const dot  = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
   if (!dot || !ring) return;
@@ -1881,41 +1900,39 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 })();
 
 // ═══════════════════════════════════════════════════════
-//  21ST.DEV ENHANCEMENT: SPOTLIGHT CARDS
-//  Mouse-tracking radial glow inside each card
+//  21ST.DEV ENHANCEMENT: SPOTLIGHT CARDS — desktop only
 // ═══════════════════════════════════════════════════════
-(function() {
+if (window.matchMedia('(hover:hover)').matches) {
   const selectors = '.percorso-card, .servizio-card, .testi-card, .blog-card';
   document.querySelectorAll(selectors).forEach(card => {
-    // Inject spotlight layer
     const sp = document.createElement('div');
     sp.className = 'sp-layer';
     sp.setAttribute('aria-hidden', 'true');
     card.appendChild(sp);
-
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
       card.style.setProperty('--spx', (e.clientX - r.left) + 'px');
       card.style.setProperty('--spy', (e.clientY - r.top)  + 'px');
     }, { passive: true });
   });
-})();
+}
 
 // ═══════════════════════════════════════════════════════
-//  21ST.DEV ENHANCEMENT: MAGNETIC BUTTONS
-//  Subtle cursor-attraction on primary CTAs
+//  21ST.DEV ENHANCEMENT: MAGNETIC BUTTONS — desktop only
 // ═══════════════════════════════════════════════════════
-document.querySelectorAll('.btn-primary').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const r  = btn.getBoundingClientRect();
-    const dx = (e.clientX - (r.left + r.width  / 2)) * .22;
-    const dy = (e.clientY - (r.top  + r.height / 2)) * .22;
-    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+if (window.matchMedia('(hover:hover)').matches) {
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r  = btn.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) * .22;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * .22;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
   });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = '';
-  });
-});
+}
 
 // ═══════════════════════════════════════════════════════
 //  MOBILE HAMBURGER MENU
@@ -1928,12 +1945,14 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
   function closeMenu() {
     hamburger.classList.remove('open');
     navLinks.classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   hamburger.addEventListener('click', (e) => {
     e.stopPropagation();
     const isOpen = hamburger.classList.toggle('open');
     navLinks.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 
   navLinks.querySelectorAll('a').forEach(link => {
@@ -1957,8 +1976,9 @@ document.getElementById('testiPrev')?.addEventListener('click', () => {
 });
 
 // ═══════════════════════════════════════════════════════
-//  3D CARD TILT
+//  3D CARD TILT — desktop only
 // ═══════════════════════════════════════════════════════
+if (window.matchMedia('(hover:hover)').matches)
 document.querySelectorAll('.percorso-card, .servizio-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();

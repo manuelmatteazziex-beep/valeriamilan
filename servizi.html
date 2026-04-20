@@ -15,7 +15,7 @@
     html{font-size:16px;scroll-behavior:smooth}
     body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
     .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
     .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
     .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
@@ -68,7 +68,7 @@
     .servizio-block.open .sb-arrow{transform:rotate(180deg);background:rgba(196,150,58,.1);border-color:rgba(196,150,58,.3)}
     .servizio-block.open .sb-arrow svg{stroke:var(--gold)}
     .servizio-block-body{max-height:0;overflow:hidden;transition:max-height .5s var(--ease-out)}
-    .servizio-block.open .servizio-block-body{max-height:600px}
+    .servizio-block.open .servizio-block-body{max-height:800px}
     .sb-content{padding:0 2rem 2rem;border-top:1px solid var(--glass-border);padding-top:1.5rem}
     .sb-desc{font-size:.95rem;color:var(--text-muted);line-height:1.85;margin-bottom:1.5rem}
     .sb-features{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.5rem}
@@ -105,7 +105,7 @@
     .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
     @media(max-width:768px){
       .nav-hamburger{display:flex}
-      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;list-style:none;background:rgba(6,16,10,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,150,58,.2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:999}
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;list-style:none;background:rgba(6,16,10,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,150,58,.2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:1001;max-height:calc(100vh - 72px);overflow-y:auto}
       .nav-links.open{display:flex;animation:navDrop .18s cubic-bezier(.16,1,.3,1)}
       .nav-links li{width:100%}
       .nav-links li:not(:last-child){border-bottom:1px solid rgba(196,150,58,.07)}
@@ -120,10 +120,20 @@
     @keyframes navDrop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
     /* Mobile responsiveness */
     @media(max-width:900px){.intro-sticky{position:static}}
-    @media(max-width:480px){.page-hero{padding:100px 1.5rem 60px}}
+    @media(max-width:480px){.page-hero{padding:90px 1.25rem 50px}}
     @media(max-width:480px){section{padding:60px 1.25rem}}
     @media(max-width:480px){.sb-info-row{flex-direction:column}}
-    /* 21st.dev: Spotlight + cursor */
+    /* Touch device: hide cursor, restore pointer */
+    @media(hover:none) and (pointer:coarse){body{cursor:auto!important}a,button{cursor:pointer!important}.cursor-dot,.cursor-ring{display:none!important}}
+    /* Mobile page padding */
+    @media(max-width:480px){.page-hero{padding:90px 1.25rem 50px}}
+    @media(max-width:480px){.sb-title{font-size:1.1rem}}
+    @media(max-width:480px){.sb-icon{width:40px;height:40px}.sb-icon svg{width:20px;height:20px}}
+    @media(max-width:480px){.sb-arrow{width:28px;height:28px}}
+    @media(max-width:480px){.servizio-block-header{padding:1.25rem 1rem;gap:.75rem}}
+    @media(max-width:480px){.btn-primary,.btn-ghost{min-height:44px;padding:14px 20px}}
+    @media(max-width:400px){.cta-title{font-size:2rem}}
+    /* Spotlight + cursor */
     @media(pointer:fine){body{cursor:none}a,button{cursor:none}}
     .cursor-dot{width:7px;height:7px;background:#C4963A;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s;will-change:left,top}
     .cursor-ring{width:36px;height:36px;border:1px solid rgba(196,150,58,.38);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .3s,opacity .3s;will-change:left,top}
@@ -402,14 +412,15 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   const hamburger=document.getElementById('hamburger');
   const navLinks=document.querySelector('.nav-links');
   if(!hamburger||!navLinks)return;
-  function closeMenu(){hamburger.classList.remove('open');navLinks.classList.remove('open');}
-  hamburger.addEventListener('click',(e)=>{e.stopPropagation();const o=hamburger.classList.toggle('open');navLinks.classList.toggle('open',o);});
+  function closeMenu(){hamburger.classList.remove('open');navLinks.classList.remove('open');document.body.style.overflow='';}
+  hamburger.addEventListener('click',(e)=>{e.stopPropagation();const o=hamburger.classList.toggle('open');navLinks.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
   navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
   document.addEventListener('click',(e)=>{if(!e.target.closest('nav'))closeMenu();});
 })();
 
-// 21st.dev: Custom cursor
+// 21st.dev: Custom cursor — desktop only
 (function(){
+  if(window.matchMedia('(hover:none)').matches)return;
   const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
   if(!dot||!ring)return;
   let mx=0,my=0,rx=0,ry=0;
@@ -422,26 +433,30 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   });
 })();
 
-// 21st.dev: Spotlight on service blocks (mouse-tracking glow)
-document.querySelectorAll('.servizio-block').forEach(block => {
-  const sp = document.createElement('div');
-  sp.className = 'sp-layer'; sp.setAttribute('aria-hidden','true');
-  block.appendChild(sp);
-  block.addEventListener('mousemove', e => {
-    const r = block.getBoundingClientRect();
-    block.style.setProperty('--spx', (e.clientX - r.left) + 'px');
-    block.style.setProperty('--spy', (e.clientY - r.top)  + 'px');
-  }, {passive:true});
-});
+// 21st.dev: Spotlight on service blocks — desktop only
+if(window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.servizio-block').forEach(block => {
+    const sp = document.createElement('div');
+    sp.className = 'sp-layer'; sp.setAttribute('aria-hidden','true');
+    block.appendChild(sp);
+    block.addEventListener('mousemove', e => {
+      const r = block.getBoundingClientRect();
+      block.style.setProperty('--spx', (e.clientX - r.left) + 'px');
+      block.style.setProperty('--spy', (e.clientY - r.top)  + 'px');
+    }, {passive:true});
+  });
+}
 
-// 21st.dev: Magnetic btn-primary
+// 21st.dev: Magnetic btn-primary — desktop only
 document.querySelectorAll('.btn-primary').forEach(btn => {
   btn.innerHTML = '<span class="btn-shine" aria-hidden="true"></span>' + btn.innerHTML;
-  btn.addEventListener('mousemove', e => {
-    const r = btn.getBoundingClientRect();
-    btn.style.transform = `translate(${(e.clientX-(r.left+r.width/2))*.2}px,${(e.clientY-(r.top+r.height/2))*.2}px)`;
-  });
-  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  if(window.matchMedia('(hover:hover)').matches){
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      btn.style.transform = `translate(${(e.clientX-(r.left+r.width/2))*.2}px,${(e.clientY-(r.top+r.height/2))*.2}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  }
 });
 </script>
 </body>

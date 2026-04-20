@@ -15,7 +15,7 @@
     html{font-size:16px;scroll-behavior:smooth}
     body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;line-height:1.7;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(6,16,10,.72);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
     .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;letter-spacing:.1em;color:var(--cream);display:flex;align-items:center;gap:.75rem}
     .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
     .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
@@ -27,6 +27,34 @@
     .nav-cta{padding:9px 22px;border:1px solid var(--gold);border-radius:100px;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)!important;transition:background var(--dur-fast)!important}
     .nav-cta:hover,.nav-cta.active{background:var(--gold);color:var(--forest-deep)!important}
     .nav-cta::after{display:none!important}
+    /* HAMBURGER */
+    .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
+    @media(max-width:768px){
+      .nav-hamburger{display:flex}
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;list-style:none;background:rgba(6,16,10,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,150,58,.2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:1001;max-height:calc(100vh - 72px);overflow-y:auto}
+      .nav-links.open{display:flex;animation:navDrop .18s cubic-bezier(.16,1,.3,1)}
+      .nav-links li{width:100%}
+      .nav-links li:not(:last-child){border-bottom:1px solid rgba(196,150,58,.07)}
+      .nav-links a{display:block;padding:1rem 2rem;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,221,208,.55)}
+      .nav-links a:hover,.nav-links a.active{color:#F0E6D0;background:rgba(196,150,58,.05)}
+      .nav-links a::after{display:none!important}
+      .nav-links .nav-cta{margin:.75rem 1.5rem;display:block;text-align:center;border:1px solid #C4963A!important;border-radius:100px!important;color:#C4963A!important;padding:10px 20px!important}
+      .nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+      .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+      .nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    }
+    @keyframes navDrop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    /* TOUCH DEVICE FIX */
+    @media(hover:none) and (pointer:coarse){body{cursor:auto!important}a,button,select{cursor:pointer!important}.cursor-dot,.cursor-ring{display:none!important}}
+    /* MOBILE PAGE */
+    @media(max-width:480px){.page-hero{padding:90px 1.25rem 50px}}
+    @media(max-width:480px){#contatti-main{padding:60px 1.25rem}}
+    @media(max-width:480px){#faq{padding:60px 1.25rem}}
+    @media(max-width:480px){.form-panel{padding:1.5rem 1.25rem}}
+    @media(max-width:480px){.form-submit{min-height:44px}}
+    @media(max-width:480px){.privacy-check input[type="checkbox"]{width:22px;height:22px;min-width:22px}}
+    @media(max-width:400px){.info-social{flex-direction:column}}
     .page-hero{padding:140px clamp(1.5rem,6vw,5rem) 80px;background:var(--forest-dark);position:relative;overflow:hidden}
     .page-hero::before{content:'';position:absolute;bottom:-1px;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--forest-deep));pointer-events:none}
     .page-hero-orb{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(196,150,58,.05) 0%,transparent 70%);pointer-events:none}
@@ -44,6 +72,7 @@
     @media(max-width:900px){.contatti-grid{grid-template-columns:1fr}}
     /* INFO PANEL */
     .info-panel{position:sticky;top:100px}
+    @media(max-width:900px){.info-panel{position:static}}
     .section-eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:block}
     .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:300;line-height:1.15;color:var(--cream)}
     .section-title em{font-style:italic;color:var(--gold)}
@@ -100,7 +129,7 @@
     .faq-item.open .faq-toggle{transform:rotate(45deg);background:rgba(196,150,58,.1);border-color:rgba(196,150,58,.3)}
     .faq-item.open .faq-toggle svg{stroke:var(--gold)}
     .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s var(--ease-out)}
-    .faq-item.open .faq-answer{max-height:400px}
+    .faq-item.open .faq-answer{max-height:600px}
     .faq-a-text{padding:0 1.5rem 1.5rem;font-size:.92rem;color:var(--text-muted);line-height:1.8}
     footer{background:var(--forest-deep);border-top:1px solid var(--glass-border);padding:2rem clamp(1.5rem,6vw,5rem)}
     .footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
@@ -172,11 +201,13 @@
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-sm);
       color: var(--text-light);
-      font-size: .95rem;
+      font-size: 1rem;
       font-family: 'Inter', sans-serif;
       outline: none;
       transition: border-color .22s, box-shadow .22s;
       resize: vertical;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .fl-group textarea { padding-top: 26px; min-height: 140px; line-height: 1.6; }
     .fl-group input:focus,
@@ -264,6 +295,9 @@
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contatti.html" class="nav-cta active">Contattami</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="page-hero">
@@ -482,10 +516,22 @@
 const obs = new IntersectionObserver(es => es.forEach(e => {if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
+// Hamburger menu
+(function(){
+  const hamburger=document.getElementById('hamburger');
+  const navLinks=document.querySelector('.nav-links');
+  if(!hamburger||!navLinks)return;
+  function closeMenu(){hamburger.classList.remove('open');navLinks.classList.remove('open');document.body.style.overflow='';}
+  hamburger.addEventListener('click',(e)=>{e.stopPropagation();const o=hamburger.classList.toggle('open');navLinks.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+  document.addEventListener('click',(e)=>{if(!e.target.closest('nav'))closeMenu();});
+})();
+
 // 21st.dev: Custom cursor
 (function(){
   const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
   if(!dot||!ring) return;
+  if(window.matchMedia('(hover:none)').matches)return;
   let mx=0,my=0,rx=0,ry=0;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';dot.classList.remove('hidden');ring.classList.remove('hidden');},{passive:true});
   document.addEventListener('mouseleave',()=>{dot.classList.add('hidden');ring.classList.add('hidden');});
@@ -496,17 +542,18 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   });
 })();
 
-// 21st.dev: Shiny submit on hover (already handled by CSS animation class)
-// 21st.dev: Magnetic submit button
-const sub = document.querySelector('.form-submit');
-if(sub){
-  sub.addEventListener('mousemove',e=>{
-    const r=sub.getBoundingClientRect();
-    const dx=(e.clientX-(r.left+r.width/2))*.18;
-    const dy=(e.clientY-(r.top+r.height/2))*.18;
-    sub.style.transform=`translate(${dx}px,${dy}px)`;
-  });
-  sub.addEventListener('mouseleave',()=>{ sub.style.transform=''; });
+// Magnetic submit button — desktop only
+if(window.matchMedia('(hover:hover)').matches){
+  const sub = document.querySelector('.form-submit');
+  if(sub){
+    sub.addEventListener('mousemove',e=>{
+      const r=sub.getBoundingClientRect();
+      const dx=(e.clientX-(r.left+r.width/2))*.18;
+      const dy=(e.clientY-(r.top+r.height/2))*.18;
+      sub.style.transform=`translate(${dx}px,${dy}px)`;
+    });
+    sub.addEventListener('mouseleave',()=>{ sub.style.transform=''; });
+  }
 }
 
 function toggleFaq(btn) {
