@@ -263,7 +263,7 @@
       font-size: clamp(2rem, 5.5vw, 4.8rem);
       font-weight: 300;
       font-style: italic;
-      color: var(--cream);
+      color: rgba(240, 230, 208, 0.78);
       line-height: 1.25;
       text-align: center;
       letter-spacing: .01em;
@@ -1792,6 +1792,7 @@
 
   // ── SCROLL → PROGRESS MAPPING ──────────────────────────
   let targetProgress = 0;
+  let narrativeP     = 0; // separate slow-lerp for narrative
 
   function onScroll() {
     const heroEl = document.getElementById('hero');
@@ -1799,13 +1800,15 @@
     const scrollY = window.scrollY;
     // Map scroll from 0 to heroH
     targetProgress = clamp(scrollY / (heroH - window.innerHeight), 0, 1);
-    updateNarrative(targetProgress);
     updateHeroContent(targetProgress);
   }
 
-  // Smooth lerp scroll progress towards target
+  // Smooth lerp scroll progress towards target (canvas)
   function smoothProgress() {
-    progress = lerp(progress, targetProgress, .06);
+    progress    = lerp(progress,    targetProgress, .06);
+    // Narrative uses a much slower lerp so fast scrolling doesn't skip texts
+    narrativeP  = lerp(narrativeP,  targetProgress, .028);
+    updateNarrative(narrativeP);
     requestAnimationFrame(smoothProgress);
   }
 
