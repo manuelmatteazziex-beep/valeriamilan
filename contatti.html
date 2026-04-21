@@ -141,8 +141,8 @@
        21ST.DEV ENHANCEMENTS — CONTATTI
     ═══════════════════════════════════════════ */
 
-    /* Animated gradient border on form panel */
-    @property --border-angle {
+    /* Subtle comet border — single soft gold arc traces slowly */
+    @property --comet-angle {
       syntax: '<angle>';
       initial-value: 0deg;
       inherits: false;
@@ -150,9 +150,11 @@
     .form-panel {
       position: relative;
       background: var(--glass-bg);
+      border: 1px solid rgba(196,150,58,.18);
       border-radius: var(--radius-lg);
       padding: clamp(2rem,4vw,3rem);
       backdrop-filter: blur(12px);
+      animation: formBreath 9s ease-in-out infinite;
     }
     .form-panel::before {
       content: '';
@@ -160,14 +162,15 @@
       inset: -1px;
       border-radius: calc(var(--radius-lg) + 1px);
       background: conic-gradient(
-        from var(--border-angle),
-        rgba(196,150,58,.08),
-        rgba(196,150,58,.5) 25%,
-        rgba(120,152,124,.25) 50%,
-        rgba(196,150,58,.08) 75%,
-        rgba(196,150,58,.5) 100%
+        from var(--comet-angle),
+        transparent 0deg,
+        transparent 314deg,
+        rgba(196,150,58,.04) 328deg,
+        rgba(196,150,58,.34) 347deg,
+        rgba(196,150,58,.04) 356deg,
+        transparent 360deg
       );
-      animation: borderSpin 6s linear infinite;
+      animation: borderComet 24s linear infinite;
       z-index: -1;
     }
     .form-panel::after {
@@ -179,13 +182,21 @@
       backdrop-filter: blur(12px);
       z-index: -1;
     }
-    @keyframes borderSpin {
-      to { --border-angle: 360deg; }
+    @keyframes formBreath {
+      0%,100% { box-shadow: 0 4px 40px rgba(0,0,0,.28); }
+      50%      { box-shadow: 0 4px 40px rgba(0,0,0,.28), 0 0 26px 2px rgba(196,150,58,.06); }
+    }
+    @keyframes borderComet {
+      to { --comet-angle: 360deg; }
     }
     /* Fallback for browsers without @property */
     @supports not (background: conic-gradient(from 1deg, red, blue)) {
-      .form-panel { border: 1px solid var(--glass-border); }
+      .form-panel { border: 1px solid var(--glass-border); animation: none; }
       .form-panel::before, .form-panel::after { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .form-panel { animation: none; }
+      .form-panel::before { animation: none; }
     }
 
     /* Floating label inputs */
