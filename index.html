@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" /></noscript>
   <style>
+    @font-face {
+      font-family: 'Hello Santuy';
+      src: url('https://db.onlinewebfonts.com/t/09718481d1da7593c126a001b0fcd774.woff2') format('woff2'),
+           url('https://db.onlinewebfonts.com/t/09718481d1da7593c126a001b0fcd774.woff') format('woff'),
+           url('https://db.onlinewebfonts.com/t/09718481d1da7593c126a001b0fcd774.ttf') format('truetype');
+      font-display: swap;
+    }
     /* ─────────────────────────────────────────────────────
        DESIGN TOKENS
     ───────────────────────────────────────────────────── */
@@ -23,8 +30,8 @@
       --gold-pale:     #F0D8A8;
       --cream:         #F0E6D0;
       --cream-light:   #FAF4EB;
-      --sage:          #78987C;
-      --sage-light:    #A6C2AA;
+      --sage:          #8F9B7E;
+      --sage-light:    #A9B29F;
       --text-light:    #E8DDD0;
       --text-muted:    rgba(232,221,208,.55);
       --glass-bg:      rgba(10,27,11,.45);
@@ -107,9 +114,9 @@
       border-color: var(--glass-border);
     }
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 500;
-      letter-spacing: .1em; color: var(--cream);
+      font-family: 'Hello Santuy', cursive;
+      font-size: 1.7rem; font-weight: 400;
+      letter-spacing: 0; color: var(--cream);
       display: flex; align-items: center; gap: .75rem;
     }
     .nav-logo-mark {
@@ -490,7 +497,7 @@
       border-radius: 100px;
       font-size: .75rem; font-weight: 500; letter-spacing: .08em;
       color: var(--sage-light);
-      background: rgba(120,152,124,.06);
+      background: rgba(143,155,126,.06);
     }
 
     /* ─────────────────────────────────────────────────────
@@ -887,7 +894,7 @@
       background: conic-gradient(
         from 0deg at 50% 50%,
         rgba(196,150,58,.055)   0deg,
-        rgba(120,152,124,.07)   90deg,
+        rgba(143,155,126,.07)   90deg,
         rgba(196,150,58,.03)   180deg,
         rgba(28,59,32,.0)      250deg,
         rgba(196,150,58,.055)  360deg
