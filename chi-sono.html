@@ -17,13 +17,13 @@
            url('https://db.onlinewebfonts.com/t/09718481d1da7593c126a001b0fcd774.ttf') format('truetype');
       font-display: swap;
     }
-    :root{--forest-deep:#4A5645;--forest-dark:#5F6E58;--forest-mid:#7B886F;--forest-light:#8F9B83;--gold:#C4963A;--gold-light:#DDB86A;--gold-pale:#F0D8A8;--cream:#F0E6D0;--cream-light:#FAF4EB;--sage:#8F9B7E;--sage-light:#A9B29F;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.82);--glass-bg:rgba(74,86,69,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
+    :root{--forest-deep:#2B3527;--forest-dark:#374430;--forest-mid:#4A5645;--forest-light:#596555;--gold:#D4A840;--gold-light:#DDB86A;--gold-pale:#F0D8A8;--cream:#F0E6D0;--cream-light:#FAF4EB;--sage:#8F9B7E;--sage-light:#A9B29F;--text-light:#E8DDD0;--text-muted:rgba(232,221,208,.82);--glass-bg:rgba(43,53,39,.45);--glass-border:rgba(196,150,58,.18);--radius-sm:8px;--radius-md:16px;--radius-lg:28px;--dur-fast:160ms;--dur-mid:280ms;--ease-out:cubic-bezier(.16,1,.3,1)}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{font-size:16px;scroll-behavior:smooth}
     body{background:var(--forest-deep);color:var(--text-light);font-family:'Inter',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(74,86,69,.72);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(43,53,39,.72);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--glass-border)}
     .nav-logo{font-family:'Hello Santuy',cursive;font-size:1.7rem;font-weight:400;letter-spacing:0;color:var(--cream);display:flex;align-items:center;gap:.75rem}
     .nav-logo-mark{width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
     .nav-logo-mark svg{width:16px;height:16px;fill:var(--gold)}
@@ -125,14 +125,14 @@
     .nav-hamburger span{width:24px;height:1px;background:var(--cream);transition:all 160ms}
     @media(max-width:768px){
       .nav-hamburger{display:flex}
-      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;list-style:none;background:rgba(74,86,69,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,150,58,.2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:1001;max-height:calc(100vh - 72px);overflow-y:auto}
+      .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;list-style:none;background:rgba(43,53,39,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,150,58,.2);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:1001;max-height:calc(100vh - 72px);overflow-y:auto}
       .nav-links.open{display:flex;animation:navDrop .18s cubic-bezier(.16,1,.3,1)}
       .nav-links li{width:100%}
       .nav-links li:not(:last-child){border-bottom:1px solid rgba(196,150,58,.07)}
       .nav-links a{display:block;padding:1rem 2rem;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,221,208,.82)}
       .nav-links a:hover,.nav-links a.active{color:#F0E6D0;background:rgba(196,150,58,.05)}
       .nav-links a::after{display:none!important}
-      .nav-links .nav-cta{margin:.75rem 1.5rem;display:block;text-align:center;border:1px solid #C4963A!important;border-radius:100px!important;color:#C4963A!important;padding:10px 20px!important}
+      .nav-links .nav-cta{margin:.75rem 1.5rem;display:block;text-align:center;border:1px solid #D4A840!important;border-radius:100px!important;color:#D4A840!important;padding:10px 20px!important}
       .nav-hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
       .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
       .nav-hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
